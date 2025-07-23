@@ -1,0 +1,39 @@
+header {
+	background-color: #26ACE2;
+
+}
+.navbar-brand{
+	margin-left:3px;
+}
+
+.icon-bg {
+	color: aliceblue;
+	font-size: 18px;
+}
+.icon-bg :hover{
+	background-color: aliceblue;
+	color:#090909;
+	border-radius: 75px;
+
+}
+.page-title{
+	color: aliceblue;
+	margin-right: 88%;
+	font-size: 17px;
+	font-family: 'Saira', sans-serif;
+	font-weight: normal;
+
+}
+.mensagens{
+	align-items: center;
+	border:none;
+	background-color: #26ACE2;
+	margin-right: 50px;
+	font-size: 18px;
+	color: aliceblue;
+}
+.mensagens:hover{
+	background-color: aliceblue;
+	color:#090909;
+	border-radius: 75px;
+}
