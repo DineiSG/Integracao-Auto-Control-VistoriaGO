@@ -1,6 +1,6 @@
 import "../card/Card.css"
 
-function Card({ classLink, classNameIcon, classBody, classTextFooter, text_title, text_footer }) {
+function Card({ classLink, classNameIcon, classBody, text_title, text_footer }) {
     return (
         
         <a href={classLink} className="text-decoration-none">
@@ -8,7 +8,7 @@ function Card({ classLink, classNameIcon, classBody, classTextFooter, text_title
                 <div className="card_style">
                     <div className={classNameIcon}></div>
                     <div className="nome_card"><span>{text_title}</span></div>
-                    <div className={classTextFooter}>{text_footer}</div>
+                    <div className="nome_footer">{text_footer}</div>
                 </div>
             </div>
         </a>

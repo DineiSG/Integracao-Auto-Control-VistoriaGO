@@ -6,7 +6,7 @@ function Table({ data, columns }) {
       <thead>
         <tr>
           {columns.map((col) => (
-            <th key={col.key} className="px-4 py-2">
+            <th key={col.key} className="px-4 py-2" id="head-table">
               {col.label}
             </th>
           ))}
@@ -16,7 +16,7 @@ function Table({ data, columns }) {
         {data.map((row, index) => (
           <tr key={index}>
             {columns.map((col) => (
-              <td key={col.key} className="border px-4 py-2">
+              <td key={col.key} className="border px-4 py-2" id="body-table">
                 {row[col.key]}
               </td>
             ))}

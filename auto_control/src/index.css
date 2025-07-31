@@ -16,10 +16,14 @@
 	font-weight: 300;
 }
 
+p {
+	font-family: 'Saira';
+}
+
 .path {
 	display: inherit;
 	padding: 40px 25px 25px;
-	margin: 15px 30px;
+	margin: 10px 30px;
 	position: absolute;
 	border: 0 !important;
 	background-color: transparent;
@@ -44,4 +48,138 @@
 #card-path {
 	color: #333;
 	font-size: 10px;
+}
+
+#options {
+	display: inline-flexbox
+}
+
+.box-base {
+	box-shadow: 0 1px 3px 0px rgba(0, 0, 0, 0.2);
+	border-radius: 2px;
+	background-color: #fff;
+	padding-left: 16px;
+	padding-right: 16px;
+	padding-bottom: 15px;
+	margin-bottom: 50px;
+	vertical-align: baseline;
+}
+
+.panel-heading {
+	padding: 8px 20px 4px;
+	line-height: 48px;
+	color: #333333;
+	display: flex;
+	font-family: 'Saira';
+	font-size: 15px;
+	font-weight: 500;
+}
+
+.sub-panel-heading {
+	padding-top: 15px;
+	padding-bottom: 15px;
+	padding-left: 20px;
+	padding-right: 20px;
+	line-height: 48px;
+	color: #333333;
+	display: flex;
+	font-family: 'Saira';
+	font-size: 15px;
+	font-weight: 500;
+	border-top: 2px solid #f0f1f3;
+	margin-top: 25px;
+}
+
+.label {
+	margin-right: 10px;
+}
+
+select {
+	font-family: 'Saira';
+	border: 1px solid #dbd9d9;
+	border-radius: 2px;
+	height: 35px;
+	width: 250px;
+}
+
+#select-all :focus {
+	border-color: #5c8efa;
+}
+
+input {
+	border: 1px solid #dbd9d9;
+	border-radius: 2px;
+
+}
+
+#input-all,
+#select-all {
+	border-radius: 2px;
+	border: none;
+	font-family: 'Saira';
+}
+
+#input-all :focus {
+	border-color: #5c8efa;
+	outline: none
+}
+
+#ti-black {
+	color: #333;
+	font-size: 25px;
+}
+
+
+#formulario {
+	margin-top: 10px;
+	padding-bottom: 20px;
+}
+
+/*Buttons*/
+.button {
+	font-weight: 400;
+	border: none;
+	font-size: 13px;
+	width: 150px;
+	height: 30px;
+	border-radius: 2px;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+	text-align: center;
+	touch-action: manipulation;
+	background-image: none;
+	margin: 15px 6px 0;
+	position:relative;
+	line-height: 1.45;
+}
+
+.button.primary {
+	background-color: #26ace2;
+	color: white;
+}
+
+.button.primary:hover {
+	background-color: #26ace2;
+}
+
+.button.secondary {
+	background-color: #6c757d;
+	color: white;
+}
+
+.button.secondary:hover {
+	background-color: #545b62;
+}
+
+.button.danger {
+	background-color: #dc3545;
+	color: white;
+}
+
+.button.danger:hover {
+	background-color: #bd2130;
+}
+
+.button.disabled {
+	background-color: #cccccc;
+	cursor: not-allowed;
 }

@@ -18,6 +18,8 @@ import RegistrarVenda from "../lojista/vendas/RegistrarVenda"
 import Home from "../home/Home";
 import Lojista from "../lojista/Lojista"
 import GestaoEstoque from "../estoque/GestaoEstoque";
+import Administracao from "../administracao/Administracao"
+import RelatorioEstoque from "../estoque/gestao/RelatorioEstoque";
 
 
 
@@ -38,7 +40,7 @@ function Body() {
   }
 
   return (
-    <ContainerPrincipal>
+    <ContainerPrincipal >
       <header className="navbar navbar-expand-lg">
         <div className="container-fluid">
           <span className="navbar-brand" onClick={toggleSidebar} >
@@ -108,13 +110,15 @@ function Body() {
         {showSidebar && (
           <Sidebar></Sidebar>
         )}
-        <ContainerSecundario>
+        <ContainerSecundario >
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Home/>}/>
               <Route path="/lojista" element={<Lojista/>} />
               <Route path="/registrar_venda" element={<RegistrarVenda />} />
+              <Route path="/administracao" element={<Administracao/>}/>
               <Route path="/gestao_estoque" element={<GestaoEstoque/>}/>
+              <Route path="/relatorio_estoque" element={<RelatorioEstoque/>}/>
             </Routes>
           </BrowserRouter>
         </ContainerSecundario>

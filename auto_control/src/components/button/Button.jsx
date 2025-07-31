@@ -1,7 +1,13 @@
 import React from 'react';
 
-function Button({ label, onClick }) {
-  return <button onClick={onClick}>{label}</button>;
+function Button({onClick, children, variant = 'primary', disabled}) {
+  const className = `button ${ variant }`
+
+  return(
+  <button className={className} onClick={onClick} disabled={disabled}>
+    {children}
+  </button>
+  )
 }
 
 export default Button;
