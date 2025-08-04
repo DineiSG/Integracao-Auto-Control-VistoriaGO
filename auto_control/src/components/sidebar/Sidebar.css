@@ -1,3 +1,5 @@
+
+
 .corpo_menu {
     font-family: 'Saira', sans-serif;
     list-style: none;
@@ -8,7 +10,14 @@
     overflow: visible;
 
 }
-
+@media screen and (max-width: 1300px) {
+  .corpo_menu {
+    display: none !important;
+  }
+  .logo_img{
+    display: none !important;
+  }
+}
 /*itens do menu*/
 
 
@@ -43,5 +52,25 @@
     list-style: none;
     
     
+}
+@media print {
+
+
+	.corpo-menu{
+		visibility: hidden;
+	}
+
+
+	#estoque,
+	#estoque * {
+		visibility: visible;
+	}
+
+	#estoque {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+	}
 }
 

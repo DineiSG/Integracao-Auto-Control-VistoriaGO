@@ -1,8 +1,7 @@
-import React from "react";
 
-function Table({ data, columns }) {
+function Table({ data = [], columns = [], className }) {
   return (
-    <table className="table-auto w-full">
+    <table className={className}>
       <thead>
         <tr>
           {columns.map((col) => (
@@ -15,11 +14,15 @@ function Table({ data, columns }) {
       <tbody>
         {data.map((row, index) => (
           <tr key={index}>
-            {columns.map((col) => (
-              <td key={col.key} className="border px-4 py-2" id="body-table">
-                {row[col.key]}
-              </td>
-            ))}
+            {columns.map((col) => {
+              const value = row[col.key];
+              const formattedValue = col.format ? col.format(value) : value;
+              return (
+                <td key={col.key} >
+                  {formattedValue}
+                </td>
+              );
+            })}
           </tr>
         ))}
       </tbody>

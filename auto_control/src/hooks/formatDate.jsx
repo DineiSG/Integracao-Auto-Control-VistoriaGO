@@ -16,3 +16,9 @@ export const formatTimestamp = (date) => {
         sign + offsetHours + ':' + offsetMinutes
     return dateString;
 };
+
+export function formatDateInfo(timestamp){
+  if (!timestamp) return '';
+  const data = new Date(timestamp);
+  return data.toLocaleDateString('pt-BR'); // exemplo: 31/07/2025
+}

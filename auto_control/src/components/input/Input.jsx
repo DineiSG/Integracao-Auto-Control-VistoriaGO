@@ -2,6 +2,7 @@
 
 function Input({ nameInput, style, maxLength, label, type, value, onChange, onClick,onBlur, readOnly, placeholder, className, id, checked, rest, nameRadio }) {
     if (type === "radio") {
+      //Preparado para checked
     return (
       <div className="form-check">
         <input

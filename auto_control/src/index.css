@@ -35,6 +35,11 @@ p {
 	z-index: 12;
 
 }
+@media screen and (max-width: 1300px) {
+  .path {
+    display: none !important;
+  }
+}
 
 .link_a {
 	margin-right: 5px;
@@ -94,6 +99,10 @@ p {
 	margin-right: 10px;
 }
 
+#criterios {
+	padding-left: 15px;
+}
+
 select {
 	font-family: 'Saira';
 	border: 1px solid #dbd9d9;
@@ -102,9 +111,6 @@ select {
 	width: 250px;
 }
 
-#select-all :focus {
-	border-color: #5c8efa;
-}
 
 input {
 	border: 1px solid #dbd9d9;
@@ -117,6 +123,10 @@ input {
 	border-radius: 2px;
 	border: none;
 	font-family: 'Saira';
+}
+
+#select-all :focus {
+	border-color: #5c8efa;
 }
 
 #input-all :focus {
@@ -143,12 +153,12 @@ input {
 	width: 150px;
 	height: 30px;
 	border-radius: 2px;
-    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+	transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 	text-align: center;
 	touch-action: manipulation;
 	background-image: none;
 	margin: 15px 6px 0;
-	position:relative;
+	position: relative;
 	line-height: 1.45;
 }
 
@@ -182,4 +192,43 @@ input {
 .button.disabled {
 	background-color: #cccccc;
 	cursor: not-allowed;
+}
+
+.table {
+	font-family: inherit;
+	font-size: 12px;
+	font-style: inherit;
+	font-weight: inherit;
+	margin: 0;
+	outline: 0;
+	padding: 0;
+	text-decoration: none;
+	vertical-align: baseline;
+}
+
+@media print {
+
+	.logo-img {
+		visibility: hidden;
+	}
+
+	.corpo-menu {
+		visibility: hidden;
+	}
+
+	header {
+		visibility: hidden;
+	}
+
+	#estoque,
+	#estoque * {
+		visibility: visible;
+	}
+
+	#estoque {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+	}
 }

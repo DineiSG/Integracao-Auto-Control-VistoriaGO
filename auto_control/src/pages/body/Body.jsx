@@ -40,7 +40,7 @@ function Body() {
   }
 
   return (
-    <ContainerPrincipal >
+    <ContainerPrincipal className="container-principal">
       <header className="navbar navbar-expand-lg">
         <div className="container-fluid">
           <span className="navbar-brand" onClick={toggleSidebar} >
@@ -108,7 +108,7 @@ function Body() {
       </header>
       <div className="menu_container">
         {showSidebar && (
-          <Sidebar></Sidebar>
+          <Sidebar id="sidebar"></Sidebar>
         )}
         <ContainerSecundario >
           <BrowserRouter>

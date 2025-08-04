@@ -16,3 +16,17 @@ export function calcValorFinanceiro(valor_1, valor_2) {
     maximumFractionDigits: 2
   });
 }
+
+// Função que calcula a quantidade de dias em estoque
+export function calculateDaysInStock(dateString) {
+  if (!dateString) return 0;
+  const data = new Date(dateString);
+  const hoje = new Date();
+
+  data.setHours(0, 0, 0, 0);
+  hoje.setHours(0, 0, 0, 0);
+
+  const diff = hoje.getTime() - data.getTime();
+  const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+  return dias >= 0 ? dias : 0;
+}
