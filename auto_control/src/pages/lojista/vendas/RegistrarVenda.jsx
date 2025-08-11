@@ -10,8 +10,6 @@ import { useGetData } from '../../../services/useGetData';
 import { usePostData } from '../../../services/usePostData';
 import { calcValorFinanceiro } from '../../../hooks/useCalc';
 import { formatTimestamp } from '../../../hooks/formatDate';
-import { converterParaMaiusculo } from '../../../hooks/transformToUppercase';
-import Select from '../../../components/select/Select';
 import Button from '../../../components/button/Button';
 
 
@@ -39,15 +37,10 @@ const RegistrarVenda = () => {
   const [dadosCEP, setDadosCEP] = useState({ cep: '', rua: '', cidade: '', bairro: '', uf: '' })
   const [vendedor, setVendedor] = useState({ nome: '', unidade: '' })
 
-
-
-
-
   /*Alterando a placa para letras maiusculas */
-  let texto = placa
-  let maiusculo = converterParaMaiusculo(texto)
+
   // buscando os dados no bd
-  const { data: veiculo, } = useGetData(buscaPlaca ? `http://localhost:8090/api/v1/veiculos/placa/${maiusculo}` : null)
+  const { data: veiculo, } = useGetData(buscaPlaca ? `http://localhost:8090/api/v1/veiculos/placa/${placa}` : null)
   const { data: dadosPostais } = useGetData(cep ? `https://brasilapi.com.br/api/cep/v1/${cep}` : null)
   const { data: dadosVendedor } = useGetData(vendedor ? `http://localhost:8090/api/v1/vendedor` : null)
   const { createData } = usePostData('http://localhost:8090/api/v1/vendas');
@@ -55,11 +48,10 @@ const RegistrarVenda = () => {
   // Ref para manter a referência atualizada da última placa buscada
   const ultimaPlacaBuscada = useRef('');
 
-
   // Função chamada quando o input da placa perde o foco
   const handleBlur = () => {
 
-    const placaM = placa.toUpperCase();
+    const placaM = placa
 
     if (placaM.length === 7) {
       // Só busca se a placa for diferente da última buscada
@@ -141,32 +133,57 @@ const RegistrarVenda = () => {
 
   }, [veiculo, dadosPostais, dadosVendedor]);
 
+  // Função para converter campos em CAIXA ALTA
+  const toUpperFields = (obj, fields = []) => {
+    const copy = { ...obj }
+    fields.forEach((f) => {
+      if (copy[f] !== undefined && copy[f] !== null) {
+        copy[f] = String(copy[f]).toUpperCase()
+      }
+    })
+    return copy
+  }
+
 
   //Dados que serao obtidos da tabela veiculo (retornando como veiculo.dado), e serao enviados à tabela vendas
   const handleSubmit = async (e) => {
     e.preventDefault()
 
     const dataRegistro = formatTimestamp(new Date())
-    const dados = {
+    let dados = {
       placa, id: veiculo.id, marca: veiculo.marca, modelo: veiculo.modelo, cor: veiculo.cor, unidade: veiculo.unidade,
       renavam: veiculo.renavan, comprador, vendedor, nascimento, rg, cpf, telefone, email, cep: dadosPostais.cep, rua: dadosCEP.rua,
       endereco, bairro: dadosPostais.neighborhood, cidade: dadosPostais.city, uf: dadosPostais.state,
       valorVenda, valorFipe, valorFinanciamento, valorEntrada, tipoVenda, instituicao, dataRegistro, observacoes
     }
 
+    dados = toUpperFields(dados, ['placa', 'marca', 'modelo', 'cor', 'unidade', 'comprador', 'vendedor', 'endereco', 'bairro','rua', 'cidade', 'uf', 'instituicao', 'tipoVenda'])
+    // Padroniza para caixa alta
+    console.log('Dados a serem enviados: ', dados)
+
     try {
       const resultado = await createData(dados)
       console.log('Venda cadastrada com sucesso, ', resultado)
       window.alert('Venda registrada com sucesso')
-      window.location.reload()
+      //window.location.reload()
 
 
     } catch (err) {
       console.error('Falha ao registrar a venda: ', err)
     }
-
-
   }
+
+  // Função para lidar com a mudança de unidade
+  const handleVendedorChange = (e) => {
+    const selectedOption = e.target.selectedOptions[0]
+    const id = Number(selectedOption.value)
+    const nome = selectedOption.getAttribute('data-descricao')
+
+    setVendedor(nome, id)
+  }
+
+
+
 
   return (
     <ContainerSecundario>
@@ -258,9 +275,16 @@ const RegistrarVenda = () => {
             <p>DADOS DA TRANSAÇÃO <br /> Informe os dados do comprador</p>
           </div>
           <Form>{/*Select de vendedores */}
-            <div className='col-12 col-md-6'>
-              <Select label={"Vendedor:"} name={"vendedor"} options={dadosVendedor.map(v => ({ value: v.id, label: v.nome }))}
-                value={vendedor} onChange={(e) => setVendedor(e.target.value)} type="text" required />
+            <div className='col-12 col-md-4' id='select-all'>
+              <label className="label" id="select-label"><span>Loja:</span></label>
+              <select type='text' name='loja' value={vendedor} onChange={handleVendedorChange} className="select-item" required >
+                <option value="" >SELECIONE UM VENDEDOR</option>
+                {dadosVendedor.map((vendedores) => (
+                  <option key={vendedores.nome} value={vendedores.nome} data-descricao={vendedores.nome}>
+                    {vendedores.nome}
+                  </option>
+                ))}
+              </select>
             </div>
             <br />
             <div className='negociacao'>
@@ -306,8 +330,8 @@ const RegistrarVenda = () => {
               </>
             )}
             <div className="col-6 col-md-12">
-              <Input label={"Observações:"} type={"text"} style={{ width: '500px' }} nameInput={"observacoes"} 
-              value={observacoes} onChange={(e) => setObservacoes(e.target.value)} required/>
+              <Input label={"Observações:"} type={"text"} style={{ width: '500px' }} nameInput={"observacoes"}
+                value={observacoes} onChange={(e) => setObservacoes(e.target.value)} required />
             </div>
             <div className="col-6 col-md-12">
               <Button onClick={handleSubmit} variant='primary' >ENVIAR</Button>

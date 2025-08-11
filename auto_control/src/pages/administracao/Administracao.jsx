@@ -24,7 +24,7 @@ const Administracao = () => {
                                 text_footer={<> Realizar baixa de um <br />veiculo do estoque de uma loja </>} />
                         </div>
                         <div className="card col-md-4" id="bloco"  >
-                            <Card classBody={"card_home"} classLink={"/relatorios"} classNameIcon={"ti ti-receipt card-ti"} classFooter={"nome_footer"} text_title={"RELATÓRIOS"}
+                            <Card classBody={"card_home"} classLink={"/relatorios_movimentacao"} classNameIcon={"ti ti-receipt card-ti"} classFooter={"nome_footer"} text_title={"RELATÓRIOS"}
                                 text_footer={<>Gerar relatórios de liberação e baixa de veículos </>} />
                         </div>
 

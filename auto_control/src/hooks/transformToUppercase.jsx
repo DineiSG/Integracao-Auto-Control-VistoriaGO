@@ -13,6 +13,3 @@ export const toUpperCaseData = (data) => {
 
 }
 
-export function converterParaMaiusculo(texto) {
-    return texto.toUpperCase()
-}

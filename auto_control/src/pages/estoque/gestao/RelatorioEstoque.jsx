@@ -103,8 +103,7 @@ const RelatorioEstoque = () => {
         const element = tabelaRef.current;
         const opt = {
             margin: 0.5,
-
-            filename: 'veiculos.pdf',
+            filename: 'Veiculos.pdf',
             image: { type: 'jpeg', quality: 0.98 },
             html2canvas: { scale: 2 },
             jsPDF: { unit: 'in', format: 'a4', orientation: 'landscape' }
@@ -117,7 +116,8 @@ const RelatorioEstoque = () => {
         <ContainerSecundario >
             <div className='container d-flex'>
                 <div className='path'>
-                    <a className="link_a" href="/">Gestão</a><i className=' ti ti-angle-right ' id='card-path'></i><p className='atual'>Gestão de Estoque </p>
+                    <a className="link_a" href="/">Gestão</a><i className=' ti ti-angle-right ' id='card-path'></i><a className="link_a" href="/gestao_estoque">Gestão de Estoque</a>
+                    <i className=' ti ti-angle-right ' id='card-path'></i><p className='atual'>Estoque </p>
                 </div>
             </div>
             <div className="container d-flex justify-content-center card-container">

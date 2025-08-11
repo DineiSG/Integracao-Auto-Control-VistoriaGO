@@ -19,7 +19,14 @@ import Home from "../home/Home";
 import Lojista from "../lojista/Lojista"
 import GestaoEstoque from "../estoque/GestaoEstoque";
 import Administracao from "../administracao/Administracao"
+import LiberarVeiculo from "../administracao/movimentacoes/LiberarVeiculo";
+import BaixarVeiculo from "../administracao/movimentacoes/BaixarVeiculo";
+import RelatoriosMovimentacao from "../administracao/movimentacoes/RelatoriosMovimentacao";
 import RelatorioEstoque from "../estoque/gestao/RelatorioEstoque";
+import CadastroVeiculoBIN from "../estoque/gestao/CadastroVeiculoBIN";
+import CadastroVeiculo from "../estoque/gestao/CadastroVeiculo";
+import EditarDado from "../estoque/gestao/EditarDado";
+
 
 
 
@@ -117,8 +124,16 @@ function Body() {
               <Route path="/lojista" element={<Lojista/>} />
               <Route path="/registrar_venda" element={<RegistrarVenda />} />
               <Route path="/administracao" element={<Administracao/>}/>
+              <Route path="/liberar_veiculo" element={<LiberarVeiculo/>}/>
+              <Route path="/baixar_veiculo" element={<BaixarVeiculo/>}/>
+              <Route path="/relatorios_movimentacao" element={<RelatoriosMovimentacao/>}/>
               <Route path="/gestao_estoque" element={<GestaoEstoque/>}/>
               <Route path="/relatorio_estoque" element={<RelatorioEstoque/>}/>
+              <Route path="/cadastro_veiculo" element={<CadastroVeiculo />} />
+              <Route path="/cadastro_veiculo_bin" element={<CadastroVeiculoBIN />} />
+              <Route path="/editar_dado" element={<EditarDado />} />
+
+              {/* Adicione outras rotas conforme necessário */}
             </Routes>
           </BrowserRouter>
         </ContainerSecundario>

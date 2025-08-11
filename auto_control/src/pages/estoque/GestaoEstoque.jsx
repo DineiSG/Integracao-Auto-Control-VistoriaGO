@@ -17,11 +17,11 @@ const GestaoEstoque = () => {
             <div className="container d-flex justify-content-center card-container">
                 <div className="row justify-content-center  w-100">
                     <div className="card col-md-4 " id="bloco" >
-                        <Card classBody={"card_home"} classLink={"/cad_veiculo_bin"} classNameIcon={"ti ti-check-box card-ti"} classFooter={"nome_footer"} text_title={"CADASTRAR VEÍCULO ( BIN )"}
+                        <Card classBody={"card_home"} classLink={"/cadastro_veiculo_bin"} classNameIcon={"ti ti-check-box card-ti"} classFooter={"nome_footer"} text_title={"CADASTRAR VEÍCULO ( BIN )"}
                             text_footer={<> Cadastrar um veiculo<br /> buscando dados na Base BIN do Detran </>} />
                     </div>
                     <div className="card col-md-4" id="bloco"  >
-                        <Card classBody={"card_home"} classLink={"/cad_veiculo"} classNameIcon={"ti ti-check-box card-ti"} classFooter={"nome_footer"} text_title={"CADASTRAR VEÍCULO ( S/ BIN )"}
+                        <Card classBody={"card_home"} classLink={"/cadastro_veiculo"} classNameIcon={"ti ti-check-box card-ti"} classFooter={"nome_footer"} text_title={"CADASTRAR VEÍCULO ( S/ BIN )"}
                             text_footer={<> Cadastrar um veiculo<br /> sem buscar dados na Base BIN do Detran </>} />
                     </div>
                 </div>
@@ -33,13 +33,11 @@ const GestaoEstoque = () => {
                             text_footer={"Consultar o estoque de veículos das lojas"} />
                     </div>
                     <div className="card col-md-4" id="bloco"  >
-                        <Card classBody={"card_home"} classLink={"/pesquisar_dado"} classNameIcon={"ti ti-search card-ti"} classFooter={"nome_footer"} text_title={"PESQUISAR DADOS"}
-                            text_footer={<> Pesquisar dados de um veículo</>} />
+                        <Card classBody={"card_home"} classLink={"/editar_dado"} classNameIcon={"ti ti-pencil-alt card-ti"} classFooter={"nome_footer"} text_title={"EDITAR DADOS"}
+                            text_footer={<>Editar dados de um veículo</>} />
                     </div>
                 </div>
             </div>
-
-
         </ContainerSecundario>
     )
 }
