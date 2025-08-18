@@ -24,9 +24,9 @@ const CadastroVeiculo = () => {
     const [unidade, setUnidade] = useState('')
 
     // Busca dados das lojas
-    const { data: dadosLoja } = useGetData(`http://localhost:8090/api/v1/lojas`)
+    const { data: dadosLoja } = useGetData(`/lojas`)
     // Envia os dados do veículo
-    const { createData } = usePostData('http://localhost:8090/api/v1/veiculos')
+    const { createData } = usePostData('/veiculos')
 
     // Função para converter campos em CAIXA ALTA
     const toUpperFields = (obj, fields = []) => {

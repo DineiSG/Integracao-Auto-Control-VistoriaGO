@@ -11,6 +11,7 @@ import { usePostData } from '../../../services/usePostData';
 import { calcValorFinanceiro } from '../../../hooks/useCalc';
 import { formatTimestamp } from '../../../hooks/formatDate';
 import Button from '../../../components/button/Button';
+import { useGetExtern } from '../../../services/useGetExtrern';
 
 
 const RegistrarVenda = () => {
@@ -40,10 +41,10 @@ const RegistrarVenda = () => {
   /*Alterando a placa para letras maiusculas */
 
   // buscando os dados no bd
-  const { data: veiculo, } = useGetData(buscaPlaca ? `http://localhost:8090/api/v1/veiculos/placa/${placa}` : null)
-  const { data: dadosPostais } = useGetData(cep ? `https://brasilapi.com.br/api/cep/v1/${cep}` : null)
-  const { data: dadosVendedor } = useGetData(vendedor ? `http://localhost:8090/api/v1/vendedor` : null)
-  const { createData } = usePostData('http://localhost:8090/api/v1/vendas');
+  const { data: veiculo, } = useGetData(buscaPlaca ? `/veiculos/placa/${placa}` : null)
+  const { data: dadosPostais } = useGetExtern(cep ? `https://brasilapi.com.br/api/cep/v1/${cep}` : null)
+  const { data: dadosVendedor } = useGetData(vendedor ? `/vendedor` : null)
+  const { createData } = usePostData('/vendas');
 
   // Ref para manter a referência atualizada da última placa buscada
   const ultimaPlacaBuscada = useRef('');
@@ -159,13 +160,14 @@ const RegistrarVenda = () => {
 
     dados = toUpperFields(dados, ['placa', 'marca', 'modelo', 'cor', 'unidade', 'comprador', 'vendedor', 'endereco', 'bairro','rua', 'cidade', 'uf', 'instituicao', 'tipoVenda'])
     // Padroniza para caixa alta
-    console.log('Dados a serem enviados: ', dados)
+    window.confirm("Confirma o registro da venda?")
+    //console.log('Dados a serem enviados: ', dados)
 
     try {
       const resultado = await createData(dados)
       console.log('Venda cadastrada com sucesso, ', resultado)
       window.alert('Venda registrada com sucesso')
-      //window.location.reload()
+      window.location.reload()
 
 
     } catch (err) {
@@ -189,7 +191,8 @@ const RegistrarVenda = () => {
     <ContainerSecundario>
       <div className='container d-flex'>
         <div className='path'>
-          <a className="link_a" href="/">Gestão</a><i className=' ti ti-angle-right ' id='card-path'></i><p className='atual'>Gestão de Estoque </p>
+          <a className="link_a" href="/">Gestão</a><i className=' ti ti-angle-right ' id='card-path'></i>
+          <a className="link_a" href="/lojista">Lojista</a><i className=' ti ti-angle-right ' id='card-path'></i><p className='atual'>Registrar Venda </p>
         </div>
       </div>
       <div className="container d-flex justify-content-center card-container">

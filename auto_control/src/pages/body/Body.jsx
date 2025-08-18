@@ -21,11 +21,14 @@ import GestaoEstoque from "../estoque/GestaoEstoque";
 import Administracao from "../administracao/Administracao"
 import LiberarVeiculo from "../administracao/movimentacoes/LiberarVeiculo";
 import BaixarVeiculo from "../administracao/movimentacoes/BaixarVeiculo";
+import HistoricoVeiculo from "../administracao/historico/HistoricoVeiculo";
 import RelatoriosMovimentacao from "../administracao/movimentacoes/RelatoriosMovimentacao";
 import RelatorioEstoque from "../estoque/gestao/RelatorioEstoque";
 import CadastroVeiculoBIN from "../estoque/gestao/CadastroVeiculoBIN";
 import CadastroVeiculo from "../estoque/gestao/CadastroVeiculo";
 import EditarDado from "../estoque/gestao/EditarDado";
+import ConsultarVenda from "../lojista/vendas/ConsultarVenda";
+
 
 
 
@@ -123,10 +126,12 @@ function Body() {
               <Route path="/" element={<Home/>}/>
               <Route path="/lojista" element={<Lojista/>} />
               <Route path="/registrar_venda" element={<RegistrarVenda />} />
+              <Route path="/consultar_venda" element={<ConsultarVenda />} />
               <Route path="/administracao" element={<Administracao/>}/>
               <Route path="/liberar_veiculo" element={<LiberarVeiculo/>}/>
               <Route path="/baixar_veiculo" element={<BaixarVeiculo/>}/>
               <Route path="/relatorios_movimentacao" element={<RelatoriosMovimentacao/>}/>
+              <Route path="/historico" element={<HistoricoVeiculo/>}/>
               <Route path="/gestao_estoque" element={<GestaoEstoque/>}/>
               <Route path="/relatorio_estoque" element={<RelatorioEstoque/>}/>
               <Route path="/cadastro_veiculo" element={<CadastroVeiculo />} />

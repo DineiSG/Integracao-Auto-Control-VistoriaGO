@@ -20,11 +20,11 @@ const EditarDado = () => {
 
 
   // buscando os dados no bd
-  const { data: veiculo, } = useGetData(buscaPlaca ? `http://localhost:8090/api/v1/veiculos/placa/${placa}` : null)
-  const { data: dadosLoja } = useGetData(`http://localhost:8090/api/v1/lojas`);
+  const { data: veiculo, } = useGetData(buscaPlaca ? `/veiculos/placa/${placa}` : null)
+  const { data: dadosLoja } = useGetData(`/lojas`);
 
   // Enviando dados editados
-  const { editByPlaca } = usePutData(`http://localhost:8090/api/v1/veiculos`);
+  const { editByPlaca } = usePutData(`/veiculos`);
 
   // Ref para manter a referência atualizada da última placa buscada
   const ultimaPlacaBuscada = useRef('');

@@ -7,31 +7,39 @@ import Button from '../../../components/button/Button';
 import "../../../assets/css/thead.css";
 import "../../../assets/css/themify-icons.css"
 
-import { formatDateInfo} from '../../../hooks/formatDate';
+import { formatDateInfo } from '../../../hooks/formatDate';
 import { useState, useEffect, useRef } from "react";
 import { useGetData } from '../../../services/useGetData';
 import { usePostData } from '../../../services/usePostData';
-import { useDeleteData } from '../../../services/useDeleteData';
+import { useDeleteId } from '../../../services/useDeleteId';
 
 const LiberarVeiculo = () => {
-  const [placa, setPlaca] = useState('')
+    const [placa, setPlaca] = useState('')
+    const [placaDelete, setPlacaDelete] = useState('')
     const [solicitante, setSolicitante] = useState('')
     const [observacoes, setObservacoes] = useState('')
     const [buscaPlaca, setBuscaPlaca] = useState("")
+    const [buscaPlacaDelete, setBuscaPlacaDelete] = useState("")
     const [selectedMotivo, setSelectedMotivo] = useState('')
     const [mostrarSelect, setMostrarSelect] = useState(false)
+    const [deleteDados, setDeleteDados] = useState({
+        id: '', placa: '', marca: '', modelo: '', cor: '', observacoes: '', renavan: '',
+        unidade: '', motivo: '', dataRegistro: '', data_cadastro: ''
+    })
     const [dadosVeiculo, setDadosVeiculo] = useState({
         id: '', placa: '', marca: '', modelo: '', cor: '', observacoes: '', renavan: '',
         unidade: '', motivo: '', dataRegistro: '', data_cadastro: ''
     })
 
     // buscando os dados no bd
-    const { data: veiculo, } = useGetData(buscaPlaca ? `http://localhost:8090/api/v1/veiculos/placa/${placa}` : null)
+    const { data: veiculo } = useGetData(buscaPlaca ? `/veiculos/placa/${placa}` : null)
+
+    const { data: liberacao } = useGetData(buscaPlacaDelete ? `/liberacoes/placa/${placaDelete}` : null)
 
     // Enviando dados editados
-    const { createData } = usePostData('http://localhost:8090/api/v1/baixas')
+    const { createData } = usePostData('/liberacoes')
 
-    const { deleteData } = useDeleteData(`http://localhost:8090/api/v1/veiculos`)
+    const { deleteData } = useDeleteId(`/liberacoes`)
 
 
     // Ref para manter a referência atualizada da última placa buscada
@@ -59,12 +67,23 @@ const LiberarVeiculo = () => {
             setSelectedMotivo('');
             setSolicitante('');
             setObservacoes('');
-
         }
-
     };
 
-
+    const handleBlurDelete = () => {
+        const placaDeleteM = placaDelete.trim().toUpperCase();
+        if (placaDeleteM.length === 7) {
+            // Só busca se a placa for diferente da última buscada
+            if (placaDeleteM !== ultimaPlacaBuscada.current) {
+                //console.log('Buscando placa para exclusão:', placaDeleteM); // Debug
+                ultimaPlacaBuscada.current = placaDeleteM;
+                setBuscaPlacaDelete(placaDeleteM);
+            } else setDeleteDados({
+                id: '', placa: '', marca: '', modelo: '', cor: '', observacoes: '', renavan: '',
+                unidade: '', motivo: '', dataRegistro: '', data_cadastro: '', ano_fabricacao: '', ano_modelo: ''
+            });
+        }
+    }
 
     // Preencher campos quando os dados solicitados chegarem
     useEffect(() => {
@@ -87,7 +106,33 @@ const LiberarVeiculo = () => {
             console.log('Veículo não encontrado');;
         }
 
-    }, [veiculo]);
+        if (liberacao && !liberacao.erro) {
+            console.log('Dados do veículo recebidos:', liberacao); // Debug
+            setDeleteDados(prev => ({
+                ...prev,
+                id: liberacao.id || '',
+                marca: liberacao.marca || '',
+                modelo: liberacao.modelo || '',
+                cor: liberacao.cor || '',
+                renavan: liberacao.renavan || '',
+                unidade: liberacao.unidade || '',
+                solicitante: liberacao.solicitante || '',
+                motivo: liberacao.motivo || '',
+                observacoes: liberacao.observacoes || '',
+                data_cadastro: formatDateInfo(liberacao.data_registro),
+
+
+            }));
+        } else if (liberacao && liberacao.erro) {
+            console.log('Veículo não encontrado');;
+        }
+
+    }, [veiculo, liberacao]);
+
+
+
+
+
 
 
 
@@ -102,28 +147,36 @@ const LiberarVeiculo = () => {
         return copy
     }
 
-
+    // Função para lidar com o envio do formulário
+    // Essa função é chamada quando o usuário deseja solicitar a liberação de um veículo
     const handleSubmit = async (e) => {
         e.preventDefault()
 
         let dados = {
             placa, id: veiculo.id, marca: dadosVeiculo.marca, modelo: dadosVeiculo.modelo, cor: dadosVeiculo.cor, renavan: dadosVeiculo.renavan,
-            unidade: dadosVeiculo.unidade, data_cadastro: dadosVeiculo.data_cadastro, solicitante, observacoes, motivo: selectedMotivo
+            unidade: dadosVeiculo.unidade, data_cadastro: dadosVeiculo.data_cadastro, solicitante, observacoes, motivo: selectedMotivo,
+            ano_fabricacao: veiculo.ano_fabricacao, ano_modelo: dadosVeiculo.ano_modelo
+
         }
 
         dados = toUpperFields(dados, ['placa', 'marca', 'modelo', 'cor', 'unidade', 'motivo', 'solicitante', 'observacoes'])
         // Padroniza para caixa alta
         console.log('Dados a serem enviados: ', dados)
 
-        const confirmar = window.confirm("Você tem certeza que deseja realizar a baixa deste veículo?");
+        const confirmar = window.confirm("Confirmar a solicitação de liberação do veículo? \nEm caso de liberção por devolução, transferência ou venda, a baixa automática do veículo será efetuada às 23:45 de hoje.");
         if (confirmar === true) {
             try {
                 const resultado = await createData(dados)
-                const deletar = await deleteData(placa)
-                console.log('Veiculo removido do bd com sucesso: ', deletar)
-                console.log('Baixa realizada com sucesso, ', resultado)
-                window.alert('Baixa realizada com sucesso')
-                //window.location.reload()
+
+                // Enviar mensagem via WhatsApp
+                const mensagem = `Prezados, favor realizar a liberação do seguinte veiculo:\nLoja: ${veiculo.unidade}\nMarca: ${veiculo.marca}\nModelo: ${veiculo.modelo}
+                 \nCor: ${veiculo.cor}\nPlaca: ${placa}\nMotivo: ${selectedMotivo}\nObservação: ${observacoes}\nDesde já agradeço.`
+                const urlWhatsApp = `https://wa.me/?text=${encodeURIComponent(mensagem)}`;
+                window.open(urlWhatsApp, '_blank')
+
+                console.log('Liberação solicitada., ', resultado)
+                window.alert('Liberação solicitada.')
+                window.location.reload()
             } catch (err) {
                 console.error('Falha ao registrar o veiculo: ', err)
                 window.alert('Falha ao registrar o veículo. Veja console para detalhes.')
@@ -132,20 +185,60 @@ const LiberarVeiculo = () => {
         }
     }
 
+    // Funçao para deletar a liberação
+    // Essa função é chamada quando o usuário deseja cancelar a liberação de um veículo
+    const handleDelete = async (e) => {
+        e.preventDefault()
+
+        let idVeiculo = liberacao.id
+
+        console.log('ID a ser deletado: ', idVeiculo)
+        const confirmar = window.confirm("Confirmar o cancelamento da solicitação de liberação do veículo?");
+
+        if (confirmar === true) {
+            try {
+                const resultado = await deleteData(idVeiculo)
+
+
+                console.log('Liberação cancelada.', resultado)
+                window.alert('Liberação cancelada.')
+                window.location.reload()
+            } catch (err) {
+                console.error('Falha ao cancelar a liberação do veiculo: ', err)
+                window.alert('Falha ao cancelar a liberação do veículo. Veja console para detalhes.')
+            }
+        }
+    }
+
     return (
         <ContainerSecundario>
             <div className='container d-flex'>
                 <div className='path'>
                     <a className="link_a" href="/">Gestão</a><i className=' ti ti-angle-right ' id='card-path'></i><a className="link_a" href="/administracao">Administracao</a>
-                    <i className=' ti ti-angle-right ' id='card-path'></i><p className='atual'>Baixar Veículo </p>
+                    <i className=' ti ti-angle-right' id='card-path'></i><p className='atual'>Liberações </p>
                 </div>
             </div>
             <div className="container d-flex justify-content-center card-container">
                 <Box onSubmit={handleSubmit}>
                     <div className='panel-heading'>
-                        <i className='ti ti-close' id="ti-black" ></i>
-                        <p>REALIZAR A BAIXA DE UM VEÍCULO <br /> Informe a placa do veículo para obter os demais dados</p>
+                        <i className='ti ti-new-window' id="ti-black" ></i>
+                        <p>SOLICITAR A LIBERAÇÃO DE UM VEÍCULO <br /> Informe a placa do veículo para obter os demais dados</p>
                     </div>
+                    <br />
+                    <br />
+                    <br />
+                    <div className="position-absolute top-25 start-50 translate-middle" id="alerta">
+                        <div className="position-absolute top-25 start-50 translate-middle" >
+                            <p><img src="./icons8-erro.gif" alt="alerta" /> ATENÇÃO!</p>
+                        </div>
+                        <div className="position-absolute top-25 start-50 translate-middle" >
+                        </div>
+                        <p><br />Em caso de solicitação de liberação por <strong>venda</strong> , <strong>devolução</strong> ou <strong>transferência</strong>,
+                            o veículo terá a sua baixa automática realizada às 23:45 do mesmo dia da solicitação.</p>
+                    </div>
+                    <br />
+                    <br />
+                    <br />
                     <Form >
                         <div className="col-12 col-md-2">
                             <Input label={"Placa:"} type={"text"} maxLength={"7"} style={{ width: '85px' }} nameInput={"placa"}
@@ -162,12 +255,6 @@ const LiberarVeiculo = () => {
                         </div>
                         <div className="col-12 col-md-3">
                             <Input label={"Cor:"} type={"text"} style={{ width: '150px' }} nameInput={"cor"} value={dadosVeiculo.cor} readOnly />
-                        </div>
-                        <div className="col-12 col-md-3">
-                            <Input label={"Ano Fabricacao:"} type={"text"} style={{ width: '50px' }} nameInput={"ano_fabricacao"} value={dadosVeiculo.ano_fabricacao} required readOnly />
-                        </div>
-                        <div className="col-12 col-md-3">
-                            <Input label={"Ano Modelo:"} type={"text"} style={{ width: '50px' }} nameInput={"ano_modelo"} value={dadosVeiculo.ano_modelo} required readOnly />
                         </div>
                         <div className="col-12 col-md-3">
                             <Input label={"Renavam:"} type={"text"} style={{ width: '150px' }} nameInput={"renavam"} value={dadosVeiculo.renavan} readOnly />
@@ -191,16 +278,48 @@ const LiberarVeiculo = () => {
                                 <div className="col-12 col-md-6">
                                     <Input label={"Observação:"} type={"text"} style={{ width: '300px' }} nameInput={"observacoes"}
                                         value={observacoes} onChange={(e) => setObservacoes(e.target.value)} />
-                                    <Input type={"hidden"} style={{ width: '300px' }} value={dadosVeiculo.data_cadastro} readOnly/>
-                                        
-
+                                    <Input type={"hidden"} style={{ width: '300px' }} value={dadosVeiculo.data_cadastro} readOnly />
                                 </div>
                             </>
                         )}
                         <div className="d-flex flex-row-reverse">
-                            <Button onClick={handleSubmit} variant='primary' >SALVAR</Button>
+                            <Button onClick={handleSubmit} variant='primary' >ENVIAR</Button>
                         </div>
-
+                    </Form>
+                    <hr />
+                    <div className='panel-heading'>
+                        <i className='ti ti-close' id="ti-black" ></i>
+                        <p>CANCELAR UMA SOLICITAÇÃO DE LIBERAÇÃO <br /> Informe a placa do veículo para obter os demais dados</p>
+                    </div>
+                    <Form>
+                        <div className="col-12 col-md-2">
+                            <Input label={"Placa:"} type={"text"} maxLength={"7"} style={{ width: '85px' }} nameInput={"placa"}
+                                value={placaDelete} onChange={(e) => setPlacaDelete(e.target.value)} onBlur={handleBlurDelete} required />
+                        </div>
+                        <div className="col-12 col-md-3">
+                            <Input label={"Loja:"} type={"text"} style={{ width: '150px' }} nameInput={"unidade"} value={deleteDados.unidade} readOnly />
+                        </div>
+                        <div className="col-12 col-md-3">
+                            <Input label={"Marca:"} type={"text"} style={{ width: '150px' }} nameInput={"marca"} value={deleteDados.marca} readOnly />
+                        </div>
+                        <div className="col-12 col-md-3">
+                            <Input label={"Modelo:"} type={"text"} style={{ width: '150px' }} nameInput={"modelo"} value={deleteDados.modelo} readOnly />
+                        </div>
+                        <div className="col-12 col-md-3">
+                            <Input label={"Cor:"} type={"text"} style={{ width: '150px' }} nameInput={"cor"} value={deleteDados.cor} readOnly />
+                        </div>
+                        <div className="col-12 col-md-3">
+                            <Input label={"Renavam:"} type={"text"} style={{ width: '150px' }} nameInput={"renavam"} value={deleteDados.renavan} readOnly />
+                        </div>
+                        <div className="col-12 col-md-3">
+                            <Input label={"Solicitante:"} type={"text"} style={{ width: '150px' }} nameInput={"solicitante"} value={deleteDados.solicitante} readOnly />
+                        </div>
+                        <div className="col-12 col-md-3">
+                            <Input label={"Motivo:"} type={"text"} style={{ width: '150px' }} nameInput={"motivo"} value={deleteDados.motivo} readOnly />
+                        </div>
+                        <div className="d-flex flex-row-reverse">
+                            <Button onClick={handleDelete} variant='primary' >ENVIAR</Button>
+                        </div>
                     </Form>
                 </Box>
 

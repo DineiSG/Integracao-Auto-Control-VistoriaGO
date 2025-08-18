@@ -27,12 +27,13 @@ const BaixarVeiculo = () => {
     })
 
     // buscando os dados no bd
-    const { data: veiculo, } = useGetData(buscaPlaca ? `http://localhost:8090/api/v1/veiculos/placa/${placa}` : null)
+    const { data: veiculo, } = useGetData(buscaPlaca ? `/veiculos/placa/${placa}` : null)
+    
 
     // Enviando dados editados
-    const { createData } = usePostData('http://localhost:8090/api/v1/baixas')
+    const { createData } = usePostData('/baixas')
 
-    const { deleteData } = useDeleteData(`http://localhost:8090/api/v1/veiculos`)
+    const { deleteData } = useDeleteData(`/veiculos`)
 
 
     // Ref para manter a referência atualizada da última placa buscada
@@ -124,7 +125,7 @@ const BaixarVeiculo = () => {
                 console.log('Veiculo removido do bd com sucesso: ', deletar)
                 console.log('Baixa realizada com sucesso, ', resultado)
                 window.alert('Baixa realizada com sucesso')
-                //window.location.reload()
+                window.location.reload()
             } catch (err) {
                 console.error('Falha ao registrar o veiculo: ', err)
                 window.alert('Falha ao registrar o veículo. Veja console para detalhes.')

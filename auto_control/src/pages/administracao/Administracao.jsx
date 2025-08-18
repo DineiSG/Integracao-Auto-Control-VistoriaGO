@@ -4,10 +4,13 @@ import "../../components/card/Card.css"
 import "../../assets/css/thead.css";
 import "../../assets/css/themify-icons.css"
 
+
 const Administracao = () => {
+
+
     return (
-        <div>
-            <ContainerSecundario>
+        <div  >
+            <ContainerSecundario >
                 <div className='container d-flex'>
                     <div className='path'>
                         <a className="link_a" href="/">Gestão</a><i className=' ti ti-angle-right ' id='card-path'></i><p className='atual'>Administracao </p>
@@ -16,8 +19,8 @@ const Administracao = () => {
                 <div className="container d-flex justify-content-center card-container">
                     <div className="row justify-content-center  w-100">
                         <div className="card col-md-4 " id="bloco" >
-                            <Card classBody={"card_home"} classLink={"/liberar_veiculo"} classNameIcon={"ti ti-new-window card-ti"} classFooter={"nome_footer"} text_title={"SOLICITAR LIBERACAO"}
-                                text_footer={<> Solicitar liberação de um veículo </>} />
+                            <Card classBody={"card_home"} classLink={"/liberar_veiculo"} classNameIcon={"ti ti-new-window card-ti"} classFooter={"nome_footer"} text_title={"LIBERACOES"}
+                                text_footer={<> Solicitar liberação de um veículo <br /> Solicitar o cancelamento de uma liberação </>} />
                         </div>
                         <div className="card col-md-4" id="bloco"  >
                             <Card classBody={"card_home"} classLink={"/baixar_veiculo"} classNameIcon={"ti ti-close card-ti"} classFooter={"nome_footer"} text_title={"BAIXAR VEÍCULO"}
@@ -37,8 +40,8 @@ const Administracao = () => {
                                 text_footer={<>Consultar o historico do veículo</>} />
                         </div>
                         <div className="card col-md-4" id="bloco"  >
-                            <Card classBody={"card_home"} classLink={"/controle_acessos"} classNameIcon={"ti ti-exchange-vertical card-ti"} classFooter={"nome_footer"} text_title={"HITÓRICO DE ACESSO"}
-                                text_footer={<>Consultar o historico de entradas<br/> e saidas de um veículo</>} />
+                            <Card classBody={"card_home"} classLink={"/controle_acessos"} classNameIcon={"ti ti-exchange-vertical card-ti"} classFooter={"nome_footer"} text_title={"HISTÓRICO DE ACESSO"}
+                                text_footer={<>Consultar o historico de entradas<br /> e saidas de um veículo</>} />
                         </div>
                         <div className="card col-md-4" id="bloco"  >
                             <Card classBody={"card_home"} classLink={"/dashboard"} classNameIcon={"ti ti-bar-chart card-ti"} classFooter={"nome_footer"} text_title={"DASHBOARD"}

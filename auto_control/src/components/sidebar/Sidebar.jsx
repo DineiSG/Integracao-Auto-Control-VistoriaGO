@@ -1,5 +1,4 @@
 import { useEffect, useRef, /*useState*/ } from "react";
-import Container from "../container/ContainerPrincipal";
 import "../../assets/css/themify-icons.css"
 import './Sidebar.css';
 import ButtonSidebar from "../button_sidebar/ButtonSidebar";
@@ -51,30 +50,50 @@ function Sidebar() {
   }, []);
 
   return (
-    
-      <div className="corpo_menu">
-        <div className="logo_img">
-          <img src="https://ambteste.credtudo.com.br/adm/sistema/logoClientes/2849/KoKJAxPldsG9ho7.jpeg" alt="Logo" />
-        </div>
-        <div >
-          <li className="separator">
-            <span>EXPLORE</span>
-          </li>
-          <li className="botoes">
-            <ButtonSidebar iconClass={"ti ti-stats-up"} classNameLink={"item_menu"} text={"Dashboard"} href={"#"} />
-          </li>
-          <li className="botoes">
-            <ButtonSidebar iconClass={"ti ti-time"} classNameLink={"item_menu"} text={"Dashboard"} href={"#"} />
-          </li>
-          
 
-
-          <li className="separator"><span>CONSULTE</span></li>
-
-
-
-        </div>
+    <div className="corpo_menu">
+      <div className="logo_img">
+        <img src="https://ambteste.credtudo.com.br/adm/sistema/logoClientes/2849/KoKJAxPldsG9ho7.jpeg" alt="Logo" />
       </div>
+      <div >
+        <li className="separator">
+          <span>EXPLORE</span>
+        </li>
+        <li className="botoes">
+          <ButtonSidebar iconClass={"ti ti-stats-up"} classNameLink={"item_menu"} text={"Dashboard"} href={"#"} />
+        </li>
+        <li className="botoes">
+          <ButtonSidebar iconClass={"ti ti-time"} classNameLink={"item_menu"} text={"Dashboard"} href={"#"} />
+        </li>
+
+
+
+        <li className="separator"><span>CONSULTE</span></li>
+        <div class="dropdown">
+          <a className="btn btn-secondary dropdown-toggle item_menu ti ti-time" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" id="item_menu">
+            Dropdown link 1
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+          </ul>
+        </div>
+        <div class="dropdown">
+          <a class="btn btn-secondary dropdown-toggle item_menu" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Dropdown link 2
+          </a>
+
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+          </ul>
+        </div>
+
+
+      </div>
+    </div>
 
 
 

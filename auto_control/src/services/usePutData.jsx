@@ -1,18 +1,21 @@
 import { useState } from 'react';
 
-export function usePutData(baseUrl) {
+export function usePutData(endpoint) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  const API_BASE_URL =import.meta.env.VITE_API_BASE_URL;
 
   // Faz PUT em baseUrl/placa/{placa}
   async function editByPlaca(data, placa) {
     setLoading(true);
     setError(null);
 
+
     try {
       if (!placa) throw new Error('Parâmetro "placa" é obrigatório para editar por placa.');
 
-      const url = `${baseUrl}/placa/${encodeURIComponent(placa)}`;
+      const url = `${API_BASE_URL}${endpoint}/placa/${encodeURIComponent(placa)}`;
       console.log('[usePutData] PUT URL ->', url); // log para depuração
 
       const res = await fetch(url, {

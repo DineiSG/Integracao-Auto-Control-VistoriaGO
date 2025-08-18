@@ -1,8 +1,10 @@
 import { useState } from 'react';
 
-export function useDeleteData(baseUrl) {
+export function useDeleteData(endpoint) {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+
+    const API_BASE_URL =import.meta.env.VITE_API_BASE_URL;
 
     async function deleteData(placa) {
         setLoading(true);
@@ -11,7 +13,9 @@ export function useDeleteData(baseUrl) {
         try {
             if (!placa) throw new Error('Parâmetro "placa" é obrigatório para deletar o veículo.');
 
-            const url = `${baseUrl}/placa/${encodeURIComponent(placa)}`;
+            const url = `${API_BASE_URL}${endpoint}/placa/${encodeURIComponent(placa)}`;
+            
+
             console.log('[useDeleteData] PUT URL ->', url); // log para depuração
 
             const res = await fetch(url, {
@@ -37,6 +41,8 @@ export function useDeleteData(baseUrl) {
         } finally {
             setLoading(false);
         }
+
+        
     }
 
     return { deleteData, loading, error };

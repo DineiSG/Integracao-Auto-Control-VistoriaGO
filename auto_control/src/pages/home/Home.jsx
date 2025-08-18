@@ -1,11 +1,16 @@
 import Card from "../../components/card/Card"
 import ContainerSecundario from "../../components/container/ContainerSecundario"
 
+//@ts-ignore
+
 
 
 const Home = () => {
+
+
+
     return (
-        <ContainerSecundario>
+        <ContainerSecundario> 
             <div className='container d-flex'>
                 <div className='path'>
                     <a className="link_a" href="#">Início</a><i className=' ti ti-angle-right ' id='card-path'></i><p className='atual'>Gestão </p>

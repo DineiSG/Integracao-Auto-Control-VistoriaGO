@@ -26,9 +26,9 @@ const RelatoriosMovimentacao = () => {
 
 
     //Recebendo os veículos da tabela
-    const { data: baixas } = useGetData(`http://localhost:8090/api/v1/baixas`);
+    const { data: baixas } = useGetData(`/baixas`);
 
-    const { data: liberacoes } = useGetData(`http://localhost:8090/api/v1/liberacoes`);
+    const { data: liberacoes } = useGetData(`/liberacoes`);
 
     const handleSelectChange = (e) => {
         setSelect(e.target.value);

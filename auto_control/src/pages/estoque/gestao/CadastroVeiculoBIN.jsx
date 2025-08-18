@@ -19,13 +19,13 @@ const CadastroVeiculoBIN = () => {
     const [unidade, setUnidade] = useState('')
 
     //Buscando os dados da loja para o select
-    const { data: dadosLoja, } = useGetData(`http://localhost:8090/api/v1/lojas`);
+    const { data: dadosLoja, } = useGetData(`/lojas`);
 
     //Buscando os dados na base BIN do Detran
     // A URL da API deve ser ajustada conforme a configuração do backend
-    const { data: veiculo, } = useGetData(buscaPlaca ? `http://localhost:8090/api/v1/veiculos/dados?placa=${placa}` : '');
+    const { data: veiculo, } = useGetData(buscaPlaca ? `/veiculos/dados?placa=${placa}` : '');
 
-    const { createData } = usePostData('http://localhost:8090/api/v1/veiculos');
+    const { createData } = usePostData('/veiculos');
 
 
     // Usando useRef para armazenar a última placa buscada

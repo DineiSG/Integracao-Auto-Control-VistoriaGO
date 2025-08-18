@@ -22,7 +22,7 @@ const RelatorioEstoque = () => {
 
 
     //Recebendo os veículos da tabela
-    const { data: veiculos } = useGetData(`http://localhost:8090/api/v1/veiculos`);
+    const { data: veiculos } = useGetData(`/veiculos`);
 
     //Recebe o array de objetos veiculos e realiza as tratativas de busca 
     useEffect(() => {

@@ -1,26 +1,32 @@
 import { useState, useEffect } from 'react';
 
-export function useGetData(apiUrl) {
+export function useGetData(endpoint) {
     const [data, setData] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [status, setStatus] = useState('idle'); // idle | loading | success | error
     const [error, setError] = useState(null);
+
+    const API_BASE_URL =import.meta.env.VITE_API_BASE_URL;
 
     useEffect(() => {
         async function fetchData() {
+            setStatus('loading');
+            setError(null);
+
             try {
-                const response = await fetch(apiUrl);
+                const response = await fetch(`${API_BASE_URL}${endpoint}`);
                 if (!response.ok) throw new Error('Erro ao buscar dados');
+
                 const result = await response.json();
                 setData(result);
+                setStatus('success');
             } catch (err) {
-                setError(err.message);
-            } finally {
-                setLoading(false);
+                setError(err.message || 'Erro desconhecido');
+                setStatus('error');
             }
         }
 
         fetchData();
-    }, [apiUrl]);
+    }, [endpoint, API_BASE_URL]);
 
-    return { data, loading, error };
+    return { data, status, error };
 }

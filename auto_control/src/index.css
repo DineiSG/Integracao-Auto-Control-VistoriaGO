@@ -149,6 +149,11 @@ input {
 	padding-bottom: 20px;
 }
 
+#alerta{
+	
+	text-align: center;
+}
+
 /*Buttons*/
 .button {
 	font-weight: 400;
