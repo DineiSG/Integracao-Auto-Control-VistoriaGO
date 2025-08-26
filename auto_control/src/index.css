@@ -35,10 +35,11 @@ p {
 	z-index: 12;
 
 }
+
 @media screen and (max-width: 1300px) {
-  .path {
-    display: none !important;
-  }
+	.path {
+		display: none !important;
+	}
 }
 
 .link_a {
@@ -57,6 +58,15 @@ p {
 
 #options {
 	display: inline-flexbox
+}
+#date_select {
+	padding: 8px 20px 4px;
+	line-height: 48px;
+	color: #333333;
+	
+	font-family: 'Saira';
+	font-size: 15px;
+	font-weight: 500;
 }
 
 .box-base {
@@ -111,7 +121,8 @@ select {
 	height: 35px;
 	width: 200px;
 }
-#select-label{
+
+#select-label {
 	margin-left: 3%;
 }
 
@@ -149,9 +160,15 @@ input {
 	padding-bottom: 20px;
 }
 
-#alerta{
-	
+#alerta {
+
 	text-align: center;
+}
+
+#graficos {
+	font-family: 'Saira';
+
+
 }
 
 /*Buttons*/

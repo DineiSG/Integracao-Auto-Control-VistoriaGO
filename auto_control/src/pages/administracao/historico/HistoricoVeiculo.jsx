@@ -2,7 +2,7 @@ import "../../../assets/css/thead.css";
 import "../../../assets/css/themify-icons.css"
 import { useState, useEffect, useRef } from "react";
 import ContainerSecundario from "../../../components/container/ContainerSecundario";
-import html2pdf from "html2pdf.js";
+import * as XLSX from "xlsx";
 import { useGetArray } from "../../../services/useGetArray";
 import { formatDateInfo } from "../../../hooks/formatDate";
 import { calculateDaysInStock } from "../../../hooks/useCalc";
@@ -114,20 +114,26 @@ const HistoricoVeiculo = () => {
         { value: 100, label: 'TODOS' },
     ];
 
-    //Funçao que gera o PDF da tabela
-    const gerarPDF = () => {
-        const element = tabelaRef.current;
-        const opt = {
-            margin: 0.5,
+    //Funçao que gera o excel da tabela
+    const gerarExcel = () => {
+        const formattedData = filteredBaixas.map(filtrados => ({
+            Loja: filtrados.unidade,
+            Marca: filtrados.marca,
+            Modelo: filtrados.modelo,
+            Cor: filtrados.cor,
+            Placa: filtrados.placa,
+            Solicitante: filtrados.solicitante,
+            Motivo: filtrados.motivo
+        }))
 
-            filename: 'relatorio_baixas.pdf',
-            image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2 },
-            jsPDF: { unit: 'in', format: 'a4', orientation: 'landscape' }
-        };
-
-        html2pdf().set(opt).from(element).save();
+        const worksheet = XLSX.utils.json_to_sheet(formattedData)
+        const workbook = XLSX.utils.book_new()
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Data")
+        XLSX.writeFile(workbook, "Relatorio de Baixas.xlsx")
     };
+
+
+
 
     return (
         <ContainerSecundario >
@@ -139,43 +145,27 @@ const HistoricoVeiculo = () => {
             </div>
             <div className="container d-flex justify-content-center card-container">
                 <Box>
-                    <div className='panel-heading'>
-                        <i className='ti ti-car' id="ti-black" ></i>
-                        <p>HISTÓRICO DE VEÍCULOS<br />Buscar o histórico de um veículo, desde o seu cadastro até a sua baixa no sistema</p>
-                    </div>
 
-                    <hr />
-                    <>
-                        <div className="flex justify-between items-center mt-4">
-                            <div className="d-flex flex-row-reverse" >
-                                <Input type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} label={"Informe a placa:"} id='criterios-pesquisa' onBlur={handleBlur} />
-                                <br />
+                    <div className='d-flex justify-content-between panel-heading'>
+                        <div className="d-flex justify-content-start">
+                            <div className="p-1 ">
+                                <i className='ti ti-car' id="ti-black" />
                             </div>
-                            <br />
-                            <br />
-                            <div className="position-absolute top-25 start-50 translate-middle" id="pagination" >
-                                <Button onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))} variant={currentPage === 1 ? 'disabled' : 'primary'} className={"px-3 py-1 bg-gray-300 rounded"} >
-                                    <i className=' ti ti-angle-left px-3 py-1 bg-gray-300 rounded' id='card-path' />ANTERIOR
-                                </Button>
-                                <span>
-                                    PÁGINA {currentPage} DE {totalPages}
-                                </span>
-                                <Button onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))} disabled={currentPage === totalPages} className={"px-3 py-1 bg-gray-300 rounded"} >
-                                    PRÓXIMA <i className=' ti ti-angle-right px-3 py-1 bg-gray-300 rounded' />
-                                </Button>
+                            <div className="p-2 ">
+                                <p>HISTÓRICO DE VEÍCULOS</p>
                             </div>
-                            <br />
-                            <br />
-                            <br />
-                            <div className="position-absolute top-25 start-50 translate-middle">
-                                <div className="p-2 ">
-                                    <Select value={pageSize} onChange={(e) => setPageSize(Number(e.target.value))} options={options} className={"quantidade"} label={"Quantidade de registros por página"} />
-                                </div>
-                            </div>
-                            <br />
-                            <br />
-
                         </div>
+                        <div className="d-flex justify-content-between">
+                            <div className="p-2 ">
+                                <Input type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}
+                                    placeholder={"Placa"} id='criterios-pesquisa' onBlur={handleBlur} />
+                            </div>
+                            <div className="p-1 ">
+                                <Select value={pageSize} onChange={(e) => setPageSize(Number(e.target.value))} options={options} className={"quantidade"} />
+                            </div>
+                        </div>
+                    </div>
+                    <>
                         {mostrarTabela && (
                             <div className="table-responsive" ref={tabelaRef}>
                                 <div>
@@ -183,9 +173,41 @@ const HistoricoVeiculo = () => {
                                 </div>
                             </div>
                         )}
-                        <Button onClick={gerarPDF} className="bg-blue-500 text-white px-4 py-2 rounded">
-                            GERAR PDF
-                        </Button>
+                        <br />
+                        <br />
+
+                        <div className="d-flex justify-content-between" id="pagination" >
+                            <div className="p-3 ">
+                                <div className="d-flex justify-content-start">
+                                    <Button onClick={gerarExcel} className="bg-blue-500 text-white px-4 py-2 rounded">
+                                        GERAR EXCEL
+                                    </Button>
+                                </div>
+                            </div>
+                            <div className="d-flex justify-content-end" >
+                                <div className="d-flex justify-content-between">
+                                    <div className="p-2 ">
+                                        <Button onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))} variant={currentPage === 1 ? 'disabled' : 'primary'} className={"px-3 py-1 bg-gray-300 rounded"} >
+                                            <i className=' ti ti-angle-left px-3 py-1 bg-gray-300 rounded' id='card-path' />ANTERIOR
+                                        </Button>
+                                    </div>
+                                    <div className="p-4 ">
+                                        <p>
+                                            <span>
+                                                PÁGINA {currentPage} DE {totalPages}
+                                            </span>
+                                        </p>
+                                    </div>
+                                    <div className="p-2 ">
+                                        <Button onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))} disabled={currentPage === totalPages} className={"px-3 py-1 bg-gray-300 rounded"} >
+                                            PRÓXIMA <i className=' ti ti-angle-right px-3 py-1 bg-gray-300 rounded' />
+                                        </Button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <br />
                     </>
                 </Box>
             </div>

@@ -88,79 +88,79 @@ const CadastroVeiculo = () => {
     }
 
     return (
-        <div>
-            <ContainerSecundario>
-                <div className='container d-flex'>
-                    <div className='path'>
-                        <a className="link_a" href="/">Gestão</a> <i className='ti ti-angle-right' id='card-path'></i>
-                        <a className="link_a" href="/gestao_estoque">Gestão de Estoque</a> <i className='ti ti-angle-right' id='card-path'></i>
-                        <p className='atual'>Cadastro de Veículos</p>
-                    </div>
-                </div>
 
-                <div className="container d-flex justify-content-center card-container">
-                    <Box>
-                        <div className='panel-heading'>
-                            <i className='ti ti-car' id="ti-black"></i>
-                            <p>CADASTRO DE VEICULOS SEM CONSULTA À BASE BIN <br /> Informe os dados do veículo</p>
+        <ContainerSecundario>
+            <div className='container d-flex'>
+                <div className='path'>
+                    <a className="link_a" href="/">Gestão</a> <i className='ti ti-angle-right' id='card-path'></i>
+                    <a className="link_a" href="/gestao_estoque">Gestão de Estoque</a> <i className='ti ti-angle-right' id='card-path'></i>
+                    <p className='atual'>Cadastro de Veículos</p>
+                </div>
+            </div>
+
+            <div className="container d-flex justify-content-center card-container">
+                <Box>
+                    <div className='panel-heading'>
+                        <i className='ti ti-car' id="ti-black"></i>
+                        <p>CADASTRO DE VEICULOS SEM CONSULTA À BASE BIN <br /> Selecione a loja e informe os demais dados do veículo.</p>
+                    </div>
+
+                    <Form onSubmit={handleSubmit}>
+                        <div className='col-12 col-md-4' id='select-all'>
+                            <label className="label" id="select-label"><span>Loja:</span></label>
+                            <select type='text' name='loja' value={unidade} onChange={handleUnidadeChange} className="select-item" required >
+                                <option value="" >SELECIONE UMA LOJA</option>
+                                {dadosLoja.map((loja) => (
+                                    <option key={loja.descricao} value={loja.descricao} data-descricao={loja.descricao}>
+                                        {loja.descricao}
+                                    </option>
+                                ))}
+                            </select>
                         </div>
 
-                        <Form onSubmit={handleSubmit}>
-                            <div className='col-12 col-md-4' id='select-all'>
-                                <label className="label" id="select-label"><span>Loja:</span></label>
-                                <select type='text' name='loja' value={unidade} onChange={handleUnidadeChange} className="select-item" required >
-                                    <option value="" >SELECIONE UMA LOJA</option>
-                                    {dadosLoja.map((loja) => (
-                                        <option key={loja.descricao} value={loja.descricao} data-descricao={loja.descricao}>
-                                            {loja.descricao}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
+                        <div className="col-12 col-md-3">
+                            <Input label={"Placa:"} type={"text"} maxLength={"7"} style={{ width: '80px' }} nameInput={"placa"}
+                                value={placa} onChange={(e) => setPlaca(e.target.value)} required />
+                        </div>
 
-                            <div className="col-12 col-md-3">
-                                <Input label={"Placa:"} type={"text"} maxLength={"7"} style={{ width: '80px' }} nameInput={"placa"}
-                                    value={placa} onChange={(e) => setPlaca(e.target.value)} required />
-                            </div>
+                        <div className="col-12 col-md-3">
+                            <Input label={"Marca:"} type={"text"} style={{ width: '150px' }} nameInput={"marca"}
+                                value={marca} onChange={(e) => setMarca(e.target.value)} required />
+                        </div>
 
-                            <div className="col-12 col-md-3">
-                                <Input label={"Marca:"} type={"text"} style={{ width: '150px' }} nameInput={"marca"}
-                                    value={marca} onChange={(e) => setMarca(e.target.value)} required />
-                            </div>
+                        <div className="col-12 col-md-3">
+                            <Input label={"Modelo:"} type={"text"} style={{ width: '150px' }} nameInput={"modelo"}
+                                value={modelo} onChange={(e) => setModelo(e.target.value)} required />
+                        </div>
 
-                            <div className="col-12 col-md-3">
-                                <Input label={"Modelo:"} type={"text"} style={{ width: '150px' }} nameInput={"modelo"}
-                                    value={modelo} onChange={(e) => setModelo(e.target.value)} required />
-                            </div>
+                        <div className="col-12 col-md-4">
+                            <Input label={"Cor:"} type={"text"} style={{ width: '150px' }} nameInput={"cor"}
+                                value={cor} onChange={(e) => setCor(e.target.value)} required />
+                        </div>
 
-                            <div className="col-12 col-md-4">
-                                <Input label={"Cor:"} type={"text"} style={{ width: '150px' }} nameInput={"cor"}
-                                    value={cor} onChange={(e) => setCor(e.target.value)} required />
-                            </div>
+                        <div className="col-12 col-md-3">
+                            <Input label={"Ano Fabricacao:"} type={"text"} maxLength={4} style={{ width: '80px' }} nameInput={"anoFabricacao"}
+                                value={ano_fabricacao} onChange={(e) => setAnoFabricacao(onlyNumbers(e.target.value))} required />
+                        </div>
 
-                            <div className="col-12 col-md-3">
-                                <Input label={"Ano Fabricacao:"} type={"text"} maxLength={4} style={{ width: '80px' }} nameInput={"anoFabricacao"}
-                                    value={ano_fabricacao} onChange={(e) => setAnoFabricacao(onlyNumbers(e.target.value))} required />
-                            </div>
+                        <div className="col-12 col-md-3">
+                            <Input label={"Ano Modelo:"} type={"text"} maxLength={4} style={{ width: '80px' }} nameInput={"anoModelo"}
+                                value={ano_modelo} onChange={(e) => setAnoModelo(onlyNumbers(e.target.value))} required />
+                        </div>
 
-                            <div className="col-12 col-md-3">
-                                <Input label={"Ano Modelo:"} type={"text"} maxLength={4} style={{ width: '80px' }} nameInput={"anoModelo"}
-                                    value={ano_modelo} onChange={(e) => setAnoModelo(onlyNumbers(e.target.value))} required />
-                            </div>
+                        <div className="col-12 col-md-3">
+                            <Input label={"Renavam:"} type={"text"} style={{ width: '150px' }} nameInput={"renavam"}
+                                value={renavan} onChange={(e) => setRenavan(onlyNumbers(e.target.value))} required />
+                        </div>
 
-                            <div className="col-12 col-md-3">
-                                <Input label={"Renavam:"} type={"text"} style={{ width: '150px' }} nameInput={"renavam"}
-                                    value={renavan} onChange={(e) => setRenavan(onlyNumbers(e.target.value))} required />
-                            </div>
+                        <div className="d-flex flex-row-reverse">
+                            <Button type="submit" variant='primary'>ENVIAR</Button>
+                        </div>
+                    </Form>
+                </Box>
+            </div>
+        </ContainerSecundario>
 
-                            <div className="d-flex flex-row-reverse">
-                                <Button type="submit" variant='primary'>ENVIAR</Button>
-                            </div>
-                        </Form>
-                    </Box>
-                </div>
-            </ContainerSecundario>
-        </div>
     )
 }
 

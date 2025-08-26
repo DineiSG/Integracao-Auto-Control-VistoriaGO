@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import ContainerSecundario from '../../../components/container/ContainerSecundario'
-import html2pdf from 'html2pdf.js'
+import * as XLSX from "xlsx";
 import { useGetData } from '../../../services/useGetData';
 import { formatDateInfo } from "../../../hooks/formatDate";
 import { calculateDaysInStock } from "../../../hooks/useCalc";
@@ -71,14 +71,14 @@ const RelatorioEstoque = () => {
     //Passando as colunas com as suas respectivas chaves
     const colunas = [
         { key: 'unidade', label: 'LOJA' },
-        { key: 'data_registro', label: 'DATA REGISTRO', format: (value) => formatDateInfo(value) /*Formatando a data para 00/00/00 */ },
+        { key: 'data_registro', label: 'DATA CADASTRO', format: (value) => formatDateInfo(value) /*Formatando a data para 00/00/00 */ },
         { key: 'marca', label: 'MARCA' },
         { key: 'modelo', label: 'MODELO' },
         { key: 'cor', label: 'COR' },
         { key: 'ano_fabricacao', label: 'ANO FABRICAÇÃO' },
         { key: 'ano_modelo', label: 'ANO MODELO' },
         { key: 'placa', label: 'PLACA' },
-        { key: 'renavan', label: 'RENAVAM' },
+        { key: 'renavan', label: 'RENAVAN' },
         { key: 'dias_estoque', label: 'DIAS EM ESTOQUE', format: (value) => value !== undefined ? `${value} dia(s)` : 'N/A' /*in */ },
 
     ]
@@ -98,18 +98,25 @@ const RelatorioEstoque = () => {
         { value: 100, label: 'TODOS' },
     ];
 
-    //Funçao que gera o PDF da tabela
-    const gerarPDF = () => {
-        const element = tabelaRef.current;
-        const opt = {
-            margin: 0.5,
-            filename: 'Veiculos.pdf',
-            image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2 },
-            jsPDF: { unit: 'in', format: 'a4', orientation: 'landscape' }
-        };
+    //Funçao que gera o excel da tabela
+    const gerarExcel = () => {
+        const formattedData = filteredVehicles.map(filtrados => ({
+            Loja: filtrados.unidade,
+            Data_Cadastro: formatDateInfo(filtrados.data_registro),
+            Marca: filtrados.marca,
+            Modelo: filtrados.modelo,
+            Cor: filtrados.cor,
+            Ano_Fabricacao:filtrados.ano_fabricacao,
+            Ano_Modelo:filtrados.ano_modelo,
+            Placa: filtrados.placa,
+            Renavan: filtrados.renavan,
+            Dias_Estoque: filtrados.dias_estoque
+        }))
 
-        html2pdf().set(opt).from(element).save();
+        const worksheet = XLSX.utils.json_to_sheet(formattedData)
+        const workbook = XLSX.utils.book_new()
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Data")
+        XLSX.writeFile(workbook, "Relatorio de Baixas.xlsx")
     };
 
     return (
@@ -122,49 +129,65 @@ const RelatorioEstoque = () => {
             </div>
             <div className="container d-flex justify-content-center card-container">
                 <Box>
-                    <div className='panel-heading'>
-                        <i className='ti ti-car' id="ti-black" ></i>
-                        <p>VERIFICAR ESTOQUE DE VEÍCULOS</p>
-                    </div>
-                    <div className="flex justify-between items-center mt-4">
-                        <div className="d-flex flex-row-reverse" >
-                            <Input type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} label={"Pesquisar por loja, placa, modelo, marca ou cor:"} id='criterios-pesquisa' />
-                            <br />
-                            <Input type="date" value={filterDate} onChange={e => setFilterDate(e.target.value)} label={"Pesquisar pela data de entrada"} />
-                        </div>
-                        <br />
-                        <br />
-                        <div className="position-absolute top-25 start-50 translate-middle" id="pagination" >
-                            <Button onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))} variant={currentPage === 1 ? 'disabled' : 'primary'} className={"px-3 py-1 bg-gray-300 rounded"} >
-                                <i className=' ti ti-angle-left px-3 py-1 bg-gray-300 rounded' id='card-path' />ANTERIOR
-                            </Button>
-                            <span>
-                                PÁGINA {currentPage} DE {totalPages}
-                            </span>
-                            <Button onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))} disabled={currentPage === totalPages} className={"px-3 py-1 bg-gray-300 rounded"} >
-                                PRÓXIMA <i className=' ti ti-angle-right px-3 py-1 bg-gray-300 rounded' />
-                            </Button>
-                        </div>
-                        <br />
-                        <br />
-                        <br />
-                        <div className="position-absolute top-25 start-50 translate-middle">
-                            <div className="p-2 ">
-                                <Select value={pageSize} onChange={(e) => setPageSize(Number(e.target.value))} options={options} className={"quantidade"} label={"Quantidade de veiculos por página"} />
+
+                    <div className='d-flex justify-content-between panel-heading'>
+                        <div className=' panel-heading '>
+                            <div className="p-1 ">
+                                <i className='ti ti-car' id="ti-black" ></i>
+                            </div>
+                            <div className="p-2">
+                                <p>VERIFICAR ESTOQUE DE VEÍCULOS</p>
                             </div>
                         </div>
-                        <br />
-                        <br />
-
+                        <div className="d-flex flex-row-reverse" >
+                            <div className="d-flex justify-content-start">
+                                <div className="p-2 ">
+                                    <Input type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} id='criterios-pesquisa' />
+                                </div>
+                                <div className="p-2 ">
+                                    <Input type="date" value={filterDate} onChange={e => setFilterDate(e.target.value)} />
+                                </div>
+                                <div className="p-1 ">
+                                    <Select value={pageSize} onChange={(e) => setPageSize(Number(e.target.value))} options={options} className={"quantidade"} />
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div className="table-responsive" ref={tabelaRef}>
                         <div>
                             <Table data={paginatedData} columns={colunas} className={"table table-striped table-bordered table-data dataTable no-footer"} role="grid" id="estoque" />
                         </div>
                     </div>
-                    <Button onClick={gerarPDF} className="bg-blue-500 text-white px-4 py-2 rounded">
-                        GERAR PDF
-                    </Button>
+                    <div className="d-flex justify-content-between" id="pagination" >
+                        <div className="p-3 ">
+                            <div className="d-flex justify-content-start">
+                                <Button onClick={gerarExcel} className="bg-blue-500 text-white px-4 py-2 rounded">
+                                    GERAR EXCEL
+                                </Button>
+                            </div>
+                        </div>
+                        <div className="d-flex justify-content-end" >
+                            <div className="d-flex justify-content-between">
+                                <div className="p-2 ">
+                                    <Button onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))} variant={currentPage === 1 ? 'disabled' : 'primary'} className={"px-3 py-1 bg-gray-300 rounded"} >
+                                        <i className=' ti ti-angle-left px-3 py-1 bg-gray-300 rounded' id='card-path' />ANTERIOR
+                                    </Button>
+                                </div>
+                                <div className="p-4 ">
+                                    <p>
+                                        <span>
+                                            PÁGINA {currentPage} DE {totalPages}
+                                        </span>
+                                    </p>
+                                </div>
+                                <div className="p-2 ">
+                                    <Button onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))} disabled={currentPage === totalPages} className={"px-3 py-1 bg-gray-300 rounded"} >
+                                        PRÓXIMA <i className=' ti ti-angle-right px-3 py-1 bg-gray-300 rounded' />
+                                    </Button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </Box>
             </div>
         </ContainerSecundario>

@@ -2,7 +2,7 @@ import "../../../assets/css/thead.css";
 import "../../../assets/css/themify-icons.css"
 import { useState, useEffect, useRef } from "react";
 import ContainerSecundario from "../../../components/container/ContainerSecundario";
-import html2pdf from "html2pdf.js";
+import * as XLSX from "xlsx";
 import { useGetData } from "../../../services/useGetData";
 import { formatDateInfo } from "../../../hooks/formatDate";
 import { calculateDaysInStock } from "../../../hooks/useCalc";
@@ -138,6 +138,8 @@ const RelatoriosMovimentacao = () => {
         { key: 'modelo', label: 'MODELO' },
         { key: 'cor', label: 'COR' },
         { key: 'placa', label: 'PLACA' },
+        { key: 'motivo', label: 'MOTIVO' },
+        { key: 'solicitante', label: 'SOLICITANTE' }
         //{ key: 'renavan', label: 'RENAVAM' },
         //{ key: 'dias_estoque', label: 'DIAS EM ESTOQUE', format: (value) => value !== undefined ? `${value} dia(s)` : 'N/A' /*in */ },
 
@@ -160,24 +162,36 @@ const RelatoriosMovimentacao = () => {
         { value: 20, label: '20' },
         { value: 30, label: '30' },
         { value: 50, label: '50' },
-        { value: 100, label: 'TODOS' },
+        { value: 1000, label: 'TODOS' },
     ];
 
-    //Funçao que gera o PDF da tabela
-    const gerarPDF = () => {
-        const element = tabelaRef.current;
-        const opt = {
-            margin: 0.5,
+    //Função que gera o Excel da tabela
+    const gerarExcel = () => {
+        let dataToExport = [];
+        if (select === 'baixas') {
+            dataToExport = filteredBaixas;
+        } else if (select === 'liberacoes') {
+            dataToExport = filteredLiberacoes;
+        }
 
-            filename: select === 'baixas' ? 'relatorio_baixas.pdf' : 'relatorio_liberacoes.pdf',
-            image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2 },
-            jsPDF: { unit: 'in', format: 'a4', orientation: 'landscape' }
-        };
+        const formattedData = dataToExport.map(filtrados => ({
+            Loja: filtrados.unidade,
+            Data_Registro: formatDateInfo(filtrados.dataRegistro), // aplica sua função de formatação
+            Marca: filtrados.marca,
+            Modelo: filtrados.modelo,
+            Cor: filtrados.cor,
+            Placa: filtrados.placa,
+            Solicitante: filtrados.solicitante,
+            Motivo: filtrados.motivo
+        }));
 
-        html2pdf().set(opt).from(element).save();
+        const worksheet = XLSX.utils.json_to_sheet(formattedData);
+
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Data");
+        XLSX.writeFile(workbook, `Relatorio de ${select === 'baixas' ? 'Baixas' : 'Liberacoes'}.xlsx`);
     };
-
+    
     return (
         <ContainerSecundario >
             <div className='container d-flex'>
@@ -188,102 +202,132 @@ const RelatoriosMovimentacao = () => {
             </div>
             <div className="container d-flex justify-content-center card-container">
                 <Box>
-                    <div className='panel-heading'>
-                        <i className='ti ti-car' id="ti-black" ></i>
-                        <p>MOVIMENTAÇÕES DE VEÍCULOS<br />Gerar relatório de baixas ou liberação de veículos</p>
+                    <div className='d-flex justify-content-between panel-heading'>
+                        <div className="d-flex justify-content-start">
+                            <div className="p-1 ">
+                                <i className='ti ti-car' id="ti-black" ></i>
+                            </div>
+                            <div className="p-2 ">
+                                <p>MOVIMENTAÇÕES DE VEÍCULOS</p>
+                            </div>
+
+                        </div>
+                        <div className="d-flex justify-content-between">
+                            <div className="p-2 ">
+                                <select className="select-item" value={select} onChange={handleSelectChange} id="select-baixas">
+                                    <option value='selecione'>Selecione uma opção</option>
+                                    <option value='baixas'>Relatório de Baixas</option>
+                                    <option value='liberacoes'>Relatório de Liberação</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
-                    <div className="position-absolute top-25 start-50 translate-middle">
-                        <select className="select-item" value={select} onChange={handleSelectChange} id="select-baixas">
-                            <option value='selecione'>Selecione uma opção</option>
-                            <option value='baixas'>Relatório de Baixas</option>
-                            <option value='liberacoes'>Relatório de Liberação</option>
-                        </select>
-                    </div>
-                    <br />
-                    <hr />
                     {select === 'baixas' && (
                         <>
-                            <div className="flex justify-between items-center mt-4">
-                                <div className="d-flex flex-row-reverse" >
-                                    <Input type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} label={"Pesquisar por loja ou placa:"} id='criterios-pesquisa' />
-                                    <br />
-                                    <Input type="date" value={filterDate} onChange={e => setFilterDate(e.target.value)} label={"Pesquisar pela data de solicitação"} />
+                            <div className="d-flex justify-content-end">
+                                <div className="p-2 ">
+                                    <Input type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} placeholder={"Filtro"} id='criterios-pesquisa' />
                                 </div>
                                 <br />
-                                <br />
-                                <div className="position-absolute top-25 start-50 translate-middle" id="pagination" >
-                                    <Button onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))} variant={currentPage === 1 ? 'disabled' : 'primary'} className={"px-3 py-1 bg-gray-300 rounded"} >
-                                        <i className=' ti ti-angle-left px-3 py-1 bg-gray-300 rounded' id='card-path' />ANTERIOR
-                                    </Button>
-                                    <span>
-                                        PÁGINA {currentPage} DE {totalPages}
-                                    </span>
-                                    <Button onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))} disabled={currentPage === totalPages} className={"px-3 py-1 bg-gray-300 rounded"} >
-                                        PRÓXIMA <i className=' ti ti-angle-right px-3 py-1 bg-gray-300 rounded' />
-                                    </Button>
+                                <div className="p-2 ">
+                                    <Input type="date" value={filterDate} onChange={e => setFilterDate(e.target.value)} />
                                 </div>
-                                <br />
-                                <br />
-                                <br />
-                                <div className="position-absolute top-25 start-50 translate-middle">
-                                    <div className="p-2 ">
-                                        <Select value={pageSize} onChange={(e) => setPageSize(Number(e.target.value))} options={options} className={"quantidade"} label={"Quantidade de registros por página"} />
+                                <div className="p-2">
+                                    <div className="p-1 ">
+                                        <Select value={pageSize} onChange={(e) => setPageSize(Number(e.target.value))} options={options} className={"quantidade"} />
                                     </div>
                                 </div>
-                                <br />
-                                <br />
-
                             </div>
+                            <br />
                             <div className="table-responsive" ref={tabelaRef}>
                                 <div>
                                     <Table data={paginatedData} columns={colunas} className={"table table-striped table-bordered table-data dataTable no-footer"} role="grid" id="estoque" />
                                 </div>
                             </div>
-                            <Button onClick={gerarPDF} className="bg-blue-500 text-white px-4 py-2 rounded">
-                                GERAR PDF
-                            </Button>
+
+                            <div className="d-flex justify-content-between" id="pagination" >
+                                <div className="p-2 ">
+                                    <div className="d-flex justify-content-start">
+                                        <Button onClick={gerarExcel} className="bg-blue-500 text-white px-4 py-2 rounded">
+                                            GERAR EXCEL
+                                        </Button>
+                                    </div>
+                                </div>
+                                <div className="d-flex justify-content-end" >
+                                    <div className="d-flex justify-content-between">
+                                        <div className="p-2 ">
+                                            <Button onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))} variant={currentPage === 1 ? 'disabled' : 'primary'} className={"px-3 py-1 bg-gray-300 rounded"} >
+                                                <i className=' ti ti-angle-left px-3 py-1 bg-gray-300 rounded' id='card-path' />ANTERIOR
+                                            </Button>
+                                        </div>
+                                        <div className="p-4 ">
+                                            <p>
+                                                <span>
+                                                    PÁGINA {currentPage} DE {totalPages}
+                                                </span>
+                                            </p>
+                                        </div>
+                                        <div className="p-2 ">
+                                            <Button onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))} disabled={currentPage === totalPages} className={"px-3 py-1 bg-gray-300 rounded"} >
+                                                PRÓXIMA <i className=' ti ti-angle-right px-3 py-1 bg-gray-300 rounded' />
+                                            </Button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </>
                     )}
                     {select === 'liberacoes' && (
                         <>
-                            <div className="flex justify-between items-center mt-4">
-                                <div className="d-flex flex-row-reverse" >
-                                    <Input type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} label={"Pesquisar por loja ou placa:"} id='criterios-pesquisa' />
-                                    <br />
-                                    <Input type="date" value={filterDate} onChange={e => setFilterDate(e.target.value)} label={"Pesquisar pela data de solicitação"} />
+                            <div className="d-flex justify-content-end">
+                                <div className="p-2 ">
+                                    <Input type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} placeholder={"Filtro"} id='criterios-pesquisa' />
                                 </div>
                                 <br />
-                                <br />
-                                <div className="position-absolute top-25 start-50 translate-middle" id="pagination" >
-                                    <Button onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))} variant={currentPage === 1 ? 'disabled' : 'primary'} className={"px-3 py-1 bg-gray-300 rounded"} >
-                                        <i className=' ti ti-angle-left px-3 py-1 bg-gray-300 rounded' id='card-path' />ANTERIOR
-                                    </Button>
-                                    <span>
-                                        PÁGINA {currentPage} DE {totalPagesLiberacao}
-                                    </span>
-                                    <Button onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPagesLiberacao))} disabled={currentPage === totalPagesLiberacao} className={"px-3 py-1 bg-gray-300 rounded"} >
-                                        PRÓXIMA <i className=' ti ti-angle-right px-3 py-1 bg-gray-300 rounded' />
-                                    </Button>
+                                <div className="p-2 ">
+                                    <Input type="date" value={filterDate} onChange={e => setFilterDate(e.target.value)} />
                                 </div>
-                                <br />
-                                <br />
-                                <br />
-                                <div className="position-absolute top-25 start-50 translate-middle">
-                                    <div className="p-2 ">
-                                        <Select value={pageSize} onChange={(e) => setPageSize(Number(e.target.value))} options={options} className={"quantidade"} label={"Quantidade de registros por página"} />
+                                <div className="p-2">
+                                    <div className="p-1 ">
+                                        <Select value={pageSize} onChange={(e) => setPageSize(Number(e.target.value))} options={options} className={"quantidade"} />
                                     </div>
                                 </div>
-                                <br />
-                                <br />
                             </div>
                             <div className="table-responsive" ref={tabelaRef}>
                                 <div>
                                     <Table data={paginatedDataLiberacao} columns={colunas} className={"table table-striped table-bordered table-data dataTable no-footer"} role="grid" id="estoque" />
                                 </div>
                             </div>
-                            <Button onClick={gerarPDF} className="bg-blue-500 text-white px-4 py-2 rounded">
-                                GERAR PDF
-                            </Button>
+                            <div className="d-flex justify-content-between" id="pagination" >
+                                <div className="p-3 ">
+                                    <div className="d-flex justify-content-start">
+                                        <Button onClick={gerarExcel} className="bg-blue-500 text-white px-4 py-2 rounded">
+                                            GERAR EXCEL
+                                        </Button>
+                                    </div>
+                                </div>
+                                <div className="d-flex justify-content-end" >
+                                    <div className="d-flex justify-content-between">
+                                        <div className="p-2 ">
+                                            <Button onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))} variant={currentPage === 1 ? 'disabled' : 'primary'} className={"px-3 py-1 bg-gray-300 rounded"} >
+                                                <i className=' ti ti-angle-left px-3 py-1 bg-gray-300 rounded' id='card-path' />ANTERIOR
+                                            </Button>
+                                        </div>
+                                        <div className="p-4 ">
+                                            <p>
+                                                <span>
+                                                    PÁGINA {currentPage} DE {totalPagesLiberacao}
+                                                </span>
+                                            </p>
+                                        </div>
+                                        <div className="p-2 ">
+                                            <Button onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPagesLiberacao))} disabled={currentPage === totalPagesLiberacao} className={"px-3 py-1 bg-gray-300 rounded"} >
+                                                PRÓXIMA <i className=' ti ti-angle-right px-3 py-1 bg-gray-300 rounded' />
+                                            </Button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </>
                     )}
 

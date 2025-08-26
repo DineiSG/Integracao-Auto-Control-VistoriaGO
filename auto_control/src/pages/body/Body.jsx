@@ -28,6 +28,9 @@ import CadastroVeiculoBIN from "../estoque/gestao/CadastroVeiculoBIN";
 import CadastroVeiculo from "../estoque/gestao/CadastroVeiculo";
 import EditarDado from "../estoque/gestao/EditarDado";
 import ConsultarVenda from "../lojista/vendas/ConsultarVenda";
+import SolicitarLiberacao from "../lojista/movimentacoes/SolicitarLiberacao";
+import CadastrarVendedor from "../lojista/vendas/CadastrarVendedor";
+import Dashboard from "../administracao/dashboard/Dashboard";
 
 
 
@@ -126,6 +129,8 @@ function Body() {
               <Route path="/" element={<Home/>}/>
               <Route path="/lojista" element={<Lojista/>} />
               <Route path="/registrar_venda" element={<RegistrarVenda />} />
+              <Route path= "/cadastrar_vendedor" element={<CadastrarVendedor/>}/>
+              <Route path="/solicitar_liberacao" element={<SolicitarLiberacao/>}/>
               <Route path="/consultar_venda" element={<ConsultarVenda />} />
               <Route path="/administracao" element={<Administracao/>}/>
               <Route path="/liberar_veiculo" element={<LiberarVeiculo/>}/>
@@ -137,7 +142,7 @@ function Body() {
               <Route path="/cadastro_veiculo" element={<CadastroVeiculo />} />
               <Route path="/cadastro_veiculo_bin" element={<CadastroVeiculoBIN />} />
               <Route path="/editar_dado" element={<EditarDado />} />
-
+              <Route path="/dashboard" element={<Dashboard/>}/>
               {/* Adicione outras rotas conforme necessário */}
             </Routes>
           </BrowserRouter>

@@ -12,9 +12,11 @@ const ConsultarVenda = () => {
 
     const [placa, setPlaca] = useState('')
     const [buscaPlaca, setBuscaPlaca] = useState("")
-    const [dadosVeiculo, setDadosVeiculo] = useState({ placa: '', marca: '', modelo: '', cor: '', renavam: '', unidade: '', vendedor: '',
-         comprador: '', telefone: '', email: '', cep: '', endereco: '', bairro: '', cidade: '', uf: '', nascimento: '', cpf: '', rg: '', 
-         valorFipe: '', valorVenda: '', valorEntrada: '', valorFinanciamento: '', observacoes: '', tipoVenda: '', instituicao: '', dataRegistro: '', rua: '' });
+    const [dadosVeiculo, setDadosVeiculo] = useState({
+        placa: '', marca: '', modelo: '', cor: '', renavam: '', unidade: '', vendedor: '',
+        comprador: '', telefone: '', email: '', cep: '', endereco: '', bairro: '', cidade: '', uf: '', nascimento: '', cpf: '', rg: '',
+        valorFipe: '', valorVenda: '', valorEntrada: '', valorFinanciamento: '', observacoes: '', tipoVenda: '', instituicao: '', dataRegistro: '', rua: ''
+    });
 
     /*Alterando a placa para letras maiusculas */
 
@@ -65,7 +67,7 @@ const ConsultarVenda = () => {
                 rua: veiculo.rua || '',
                 cpf: veiculo.cpf || '',
                 rg: veiculo.rg || '',
-                valorFipe: veiculo.valorFipe|| '',
+                valorFipe: veiculo.valorFipe || '',
                 valorVenda: veiculo.valorVenda || '',
                 valorEntrada: veiculo.valorEntrada || '',
                 valorFinanciamento: veiculo.valorFinanciamento || '',
@@ -93,11 +95,13 @@ const ConsultarVenda = () => {
             <div className="container d-flex justify-content-center card-container">
                 <Box onSubmit>
                     <div className='panel-heading'>
+                        <p>Informe uma placa para buscar os dados da compra de um veículo</p>
+                    </div>
+                    <div className='panel-heading'>
                         <i className='ti ti-car' id="ti-black" ></i>
-                        <p>REGISTRAR A VENDA DE UM VEÍCULO</p>
+                        <p>DADOS DO VEÍCULO</p>
                     </div>
                     <Form >
-
                         <div className="col-12 col-md-2">
                             <Input label={"Placa:"} type={"text"} maxLength={"7"} style={{ width: '80px' }} nameInput={"placa"} value={placa} onChange={(e) => setPlaca(e.target.value)} onBlur={handleBlur} required />
                         </div>

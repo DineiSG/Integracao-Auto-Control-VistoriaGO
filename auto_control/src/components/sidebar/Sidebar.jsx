@@ -69,25 +69,25 @@ function Sidebar() {
 
 
         <li className="separator"><span>CONSULTE</span></li>
-        <div class="dropdown">
+        <div className="dropdown">
           <a className="btn btn-secondary dropdown-toggle item_menu ti ti-time" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" id="item_menu">
             Dropdown link 1
           </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
+          <ul className="dropdown-menu">
+            <li><a className="dropdown-item" href="#">Action</a></li>
+            <li><a className="dropdown-item" href="#">Another action</a></li>
+            <li><a className="dropdown-item" href="#">Something else here</a></li>
           </ul>
         </div>
-        <div class="dropdown">
-          <a class="btn btn-secondary dropdown-toggle item_menu" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <div className="dropdown">
+          <a className="btn btn-secondary dropdown-toggle item_menu" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Dropdown link 2
           </a>
 
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
+          <ul className="dropdown-menu">
+            <li><a className="dropdown-item" href="#">Action</a></li>
+            <li><a className="dropdown-item" href="#">Another action</a></li>
+            <li><a className="dropdown-item" href="#">Something else here</a></li>
           </ul>
         </div>
 

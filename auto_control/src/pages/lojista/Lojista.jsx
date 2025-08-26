@@ -33,15 +33,15 @@ const Lojista = () => {
       <div className="container d-flex justify-content-center card-container-2">
         <div className="row justify-content-center  w-100">
           <div className="card col-md-4 " id="bloco" >
-            <Card classBody={"card_home"} classLink={"/liberacao_venda"} classNameIcon={"ti ti-new-window card-ti"} classFooter={"nome_footer"} text_title={"SOLICITAR LIBERAÇÃO"} 
-            text_footer={"Solicitar a liberação de um veículo vendido"}/>
+            <Card classBody={"card_home"} classLink={"/solicitar_liberacao"} classNameIcon={"ti ti-new-window card-ti"} classFooter={"nome_footer"} text_title={"SOLICITAR LIBERAÇÃO"} 
+            text_footer={"Solicitar a liberação de um veículo"}/>
           </div>
           <div className="card col-md-4" id="bloco"  >
             <Card classBody={"card_home"} classLink={"/relatório_venda"} classNameIcon={"ti ti-bar-chart card-ti"} classFooter={"nome_footer"} text_title={"RELATÓRIO DE VENDAS"} 
             text_footer={"Gerar um relatório de vendas"} />
           </div>
           <div className="card col-md-4" id="bloco"  >
-            <Card classBody={"card_home"} classLink={"/relatorio_estoque"} classNameIcon={"ti ti-write card-ti"} classFooter={"nome_footer"} text_title={"ESTOQUE"} 
+            <Card classBody={"card_home"} classLink={"/estoque_loja"} classNameIcon={"ti ti-write card-ti"} classFooter={"nome_footer"} text_title={"ESTOQUE"} 
             text_footer={"Consultar o estoque de veículos da loja"} />
           </div>
         </div>

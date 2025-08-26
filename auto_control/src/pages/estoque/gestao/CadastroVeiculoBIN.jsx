@@ -129,7 +129,7 @@ const CadastroVeiculoBIN = () => {
                     <Box >
                         <div className='panel-heading'>
                             <i className='ti ti-car' id="ti-black" ></i>
-                            <p>CADASTRO DE VEICULOS COM CONSULTA À BASE BIN <br /> Informe os dados do veículo</p>
+                            <p>CADASTRO DE VEICULOS COM CONSULTA À BASE BIN <br /> Selecione a loja e informe a placa do veículo para buscar os dados na Base BIN do Detran</p>
                         </div>
                         <Form onSubmit={handleSubmit}>
                             <div className='col-12 col-md-4' id='select-all'>
