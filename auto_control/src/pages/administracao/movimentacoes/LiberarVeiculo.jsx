@@ -129,13 +129,6 @@ const LiberarVeiculo = () => {
 
     }, [veiculo, liberacao]);
 
-
-
-
-
-
-
-
     // Função para converter campos em CAIXA ALTA
     const toUpperFields = (obj, fields = []) => {
         const copy = { ...obj }
@@ -212,10 +205,23 @@ const LiberarVeiculo = () => {
 
     return (
         <ContainerSecundario>
-            <div className='container d-flex'>
-                <div className='path'>
-                    <a className="link_a" href="/">Gestão</a><i className=' ti ti-angle-right ' id='card-path'></i><a className="link_a" href="/administracao">Administracao</a>
-                    <i className=' ti ti-angle-right' id='card-path'></i><p className='atual'>Liberações </p>
+            <div className='container d-flex flex-column ' id="path" >
+                <div className="d-flex align-items-start ">
+                    <div className="p-2">
+                        <a className="link_a" href="/">Gestão</a>
+                    </div>
+                    <div className="p-2">
+                        <i className=' ti ti-angle-right ' id='card-path' />
+                    </div>
+                    <div className="p-2">
+                        <a className="link_a" href="\administracao">Administração</a>
+                    </div>
+                    <div className="p-2">
+                        <i className=' ti ti-angle-right ' id='card-path' />
+                    </div>
+                    <div className="p-2">
+                        <p className='atual'>Solicitar Liberação </p>
+                    </div>
                 </div>
             </div>
             <div className="container d-flex justify-content-center card-container">

@@ -7,7 +7,7 @@ import Input from '../../../components/input/Input';
 import Button from '../../../components/button/Button';
 
 import { useState } from 'react';
-import { useGetData } from '../../../services/useGetData';
+//import { useGetData } from '../../../services/useGetData';
 import { usePostData } from '../../../services/usePostData';
 import { formatTimestamp } from '../../../hooks/formatDate';
 import { formatTel } from "../../../hooks/useMask"
@@ -20,7 +20,7 @@ const CadastrarVendedor = () => {
     const [unidade, setUnidade] = useState('')
 
     // Busca dados das lojas
-    const { data: dadosLoja } = useGetData(`/lojas`)
+    //const { data: dadosLoja } = useGetData(`/lojas`)
     // Envia os dados do veículo
     const { createData } = usePostData('/veiculos')
 
@@ -76,13 +76,25 @@ const CadastrarVendedor = () => {
     return (
 
         <ContainerSecundario>
-            <div className='container d-flex'>
-                <div className='path'>
-                    <a className="link_a" href="/">Gestão</a><i className=' ti ti-angle-right ' id='card-path'></i>
-                    <a className="link_a" href="/lojista">Lojista</a><i className=' ti ti-angle-right ' id='card-path'></i><p className='atual'>Cadastrar Vendedor </p>
+            <div className='container d-flex flex-column ' id="path" >
+                <div className="d-flex align-items-start ">
+                    <div className="p-2">
+                        <a className="link_a" href="/">Gestão</a>
+                    </div>
+                    <div className="p-2">
+                        <i className=' ti ti-angle-right ' id='card-path' />
+                    </div>
+                    <div className="p-2">
+                        <a className="link_a" href="/lojista">Lojista</a>
+                    </div>
+                    <div className="p-2">
+                        <i className=' ti ti-angle-right ' id='card-path' />
+                    </div>
+                    <div className="p-2">
+                        <p className='atual'>Cadastrar Vendedor </p>
+                    </div>
                 </div>
             </div>
-
             <div className="container d-flex justify-content-center card-container">
                 <Box>
                     <div className='panel-heading'>

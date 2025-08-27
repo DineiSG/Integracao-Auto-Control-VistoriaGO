@@ -24,30 +24,52 @@ const Dashboard = () => {
   return (
     <ContainerSecundario>
       <div className='container d-flex'>
-        <div className='path'>
-          <a className="link_a" href="/">Gestão</a><i className=' ti ti-angle-right ' id='card-path'></i>
-          <a className="link_a" href="/administracao">Administração</a><i className=' ti ti-angle-right ' id='card-path'></i><p className='atual'>Dashboard </p>
+        <div className='container d-flex flex-column ' id="path" >
+          <div className="d-flex align-items-start ">
+            <div className="p-2">
+              <a className="link_a" href="/">Gestão</a>
+            </div>
+            <div className="p-2">
+              <i className=' ti ti-angle-right ' id='card-path' />
+            </div>
+            <div className="p-2">
+              <a className="link_a" href="\administracao">Administração</a>
+            </div>
+            <div className="p-2">
+              <i className=' ti ti-angle-right ' id='card-path' />
+            </div>
+            <div className="p-2">
+              <p className='atual'>Dashboard </p>
+            </div>
+          </div>
         </div>
 
       </div>
       <div className="container d-flex justify-content-center card-container" id="graficos">
         <Box >
-          <div className='panel-heading'>
-            <i className='ti ti-blackboard' id="ti-black" ></i>
-            <p>DASHBOARD<br />Estatísticas relacionadas ao estoque, movimentação e vendas de veículos</p>
+          <div className='d-flex justify-content-between panel-heading'>
+            <div className="d-flex justify-content-start">
+              <div className="p-2 ">
+                <i className='ti ti-blackboard' id="ti-black" ></i>
+              </div>
+              <div className="p-2 ">
+                <p>DASHBOARD</p>
+              </div>
+            </div>
+            <div className="d-flex justify-content-between">
+              <div className="p-2 ">
+                <select className="select-item" value={select} onChange={handleSelectChange} id="select-estatisticas">
+                  <option value='selecione'>Selecione uma opção</option>
+                  <option value='estoque'>Estoque Lojas</option>
+                  <option value='marca'>Marcas</option>
+                  <option value='ano_modelo'>Ano Modelo</option>
+                  <option value='vendas_loja'>Vendas Por Loja</option>
+                  <option value='vendas_periodo'>Vendas Por Período</option>
+                </select>
+              </div>
+            </div>
           </div>
-          <div className="position-absolute top-25 start-50 translate-middle">
-            <select className="select-item" value={select} onChange={handleSelectChange} id="select-estatisticas">
-              <option value='selecione'>Selecione uma opção</option>
-              <option value='estoque'>Estoque Lojas</option>
-              <option value='marca'>Marcas</option>
-              <option value='ano_modelo'>Ano Modelo</option>
-              <option value='vendas_loja'>Vendas Por Loja</option>
-              <option value='vendas_periodo'>Vendas Por Período</option>
-            </select>
-          </div>
-          <br />
-          <br />
+ 
           {select === 'estoque' && (
             <div className="container d-flex justify-content-center " >
               <Estoque />

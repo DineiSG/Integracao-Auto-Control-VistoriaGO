@@ -7,7 +7,7 @@ import Button from '../../../components/button/Button';
 import "../../../assets/css/thead.css";
 import "../../../assets/css/themify-icons.css"
 
-import { formatDateInfo} from '../../../hooks/formatDate';
+import { formatDateInfo } from '../../../hooks/formatDate';
 import { useState, useEffect, useRef } from "react";
 import { useGetData } from '../../../services/useGetData';
 import { usePostData } from '../../../services/usePostData';
@@ -28,7 +28,7 @@ const BaixarVeiculo = () => {
 
     // buscando os dados no bd
     const { data: veiculo, } = useGetData(buscaPlaca ? `/veiculos/placa/${placa}` : null)
-    
+
 
     // Enviando dados editados
     const { createData } = usePostData('/baixas')
@@ -136,10 +136,23 @@ const BaixarVeiculo = () => {
 
     return (
         <ContainerSecundario>
-            <div className='container d-flex'>
-                <div className='path'>
-                    <a className="link_a" href="/">Gestão</a><i className=' ti ti-angle-right ' id='card-path'></i><a className="link_a" href="/administracao">Administracao</a>
-                    <i className=' ti ti-angle-right ' id='card-path'></i><p className='atual'>Baixar Veículo </p>
+            <div className='container d-flex flex-column ' id="path" >
+                <div className="d-flex align-items-start ">
+                    <div className="p-2">
+                        <a className="link_a" href="/">Gestão</a>
+                    </div>
+                    <div className="p-2">
+                        <i className=' ti ti-angle-right ' id='card-path' />
+                    </div>
+                    <div className="p-2">
+                        <a className="link_a" href="\administracao">Administração</a>
+                    </div>
+                    <div className="p-2">
+                        <i className=' ti ti-angle-right ' id='card-path' />
+                    </div>
+                    <div className="p-2">
+                        <p className='atual'>Baixar Veículo </p>
+                    </div>
                 </div>
             </div>
             <div className="container d-flex justify-content-center card-container">
@@ -193,8 +206,8 @@ const BaixarVeiculo = () => {
                                 <div className="col-12 col-md-6">
                                     <Input label={"Observação:"} type={"text"} style={{ width: '300px' }} nameInput={"observacoes"}
                                         value={observacoes} onChange={(e) => setObservacoes(e.target.value)} />
-                                    <Input type={"hidden"} style={{ width: '300px' }} value={dadosVeiculo.data_cadastro} readOnly/>
-                                        
+                                    <Input type={"hidden"} style={{ width: '300px' }} value={dadosVeiculo.data_cadastro} readOnly />
+
 
                                 </div>
                             </>

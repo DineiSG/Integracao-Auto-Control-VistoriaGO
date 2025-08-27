@@ -1,22 +1,33 @@
 header {
 	background-color: #26ACE2;
-
+	height: 66px;
 }
-.navbar-brand{
-	margin-left:3px;
+
+#topnav {
+	box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2);
+}
+
+.navbar-brand {
+	margin-left: 3px;
 }
 
 .icon-bg {
-	color: aliceblue;
-	font-size: 18px;
+	display: block;
+	border-radius: 50%;
+	height: 40px;
+	width: 40px;
+	padding: 0;
+	line-height: 40px;
+	font-size: 20px;
+	text-align: center;
+	border: none;
+	background-color: #26ACE2;
+	
 }
-.icon-bg :hover{
-	background-color: aliceblue;
-	color:#090909;
-	border-radius: 75px;
 
-}
-.page-title{
+
+
+.page-title {
 	color: aliceblue;
 	margin-right: 88%;
 	font-size: 17px;
@@ -24,16 +35,15 @@ header {
 	font-weight: normal;
 
 }
-.mensagens{
-	align-items: center;
-	border:none;
+
+#mensagens {
+
+	border-radius: 50%;
+	height: 40px;
+	width: 40px;
 	background-color: #26ACE2;
-	margin-right: 50px;
-	font-size: 18px;
-	color: aliceblue;
+	font-size: 20px;
+	text-align: center;
+	border: none
 }
-.mensagens:hover{
-	background-color: aliceblue;
-	color:#090909;
-	border-radius: 75px;
-}
+

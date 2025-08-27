@@ -40,7 +40,6 @@ import Dashboard from "../administracao/dashboard/Dashboard";
 // import menu from "../../assets/menu.png";
 
 function Body() {
-  const [message, setMessage] = useState(false)
   // const [ativRecente, setAtivRecente] = useState(false)
   const [showSidebar, setShowSidebar] = useState(true);
 
@@ -48,74 +47,33 @@ function Body() {
     setShowSidebar(!showSidebar);
   }
 
-  const toggleMessage = () => {
-    setMessage(!message);
-  }
+
 
   return (
     <ContainerPrincipal className="container-principal">
-      <header className="navbar navbar-expand-lg">
+      <header className="navbar navbar-expand-lg d-flex align-items-center">
         <div className="container-fluid">
-          <span className="navbar-brand" onClick={toggleSidebar} >
-            <a data-toggle="tooltips">
-              <span className="icon-bg">
-                <i className="ti ti-menu" />
-              </span>
-            </a>
-          </span>
+          {/*Responsável pelo icone que aciona a barra lateral */}
+          <button className="navbar-brand icon-bg p-0" onClick={toggleSidebar} >
+            <i className="ti ti-menu" />
+          </button>
           { /*Buscar endpoints para variação de usuarios */}
           <h1 className="page-title">
             Vistoria Go
-            <span className="id-logado">
-              ID - 2849
-            </span>
           </h1>
         </div >
-        <div className="navbar-nav toolbar" >
-          <button className="mensagens" data-toggle="dropdown" onClick={toggleMessage}>
-            <span >
-              <i className="ti ti-email"></i>
-            </span>
-          </button>
-
-          <span id="indica_avisos_header" className="badge badge-warning"></span>
-          {message && (
-            <Messages>
-              <div >
-                <div className="topnav-dropdown-header">
-                  <span>Mensagens</span>
-                </div>
-                <div className="scroll-pane">
-                  <ul className="media-list scroll-content" id="header_avisos">
-                    <li>mensagem</li>
-                  </ul>
-                </div>
-                <div className="topnav-dropdown-footer">
-                  <a href="#">Veja todas as mensagens</a>
-                </div>
-              </div>
-            </Messages>)}
-
-
-          <div className="dropdown toolbar-icon-bg drop-atividades-recentes" data-toggle="tooltip" data-placement="left" title="Atividades recentes">
-            <a href="#" className="hasnotifications dropdown-toggle" data-toggle='dropdown'>
-              <span className="icon-bg">
-                <i className="ti ti-bell"></i>
+        <div className="d-flex justify-content-end" >
+          <div className="p-2">
+            <button id="mensagens" >
+              <span >
+                <i className="ti ti-email"></i>
               </span>
-              <span id="indicaAtivRecentHeader" className="badge badge-warning"></span>
-            </a>
-            <div className="dropdown-menu notifications arrow">
-              <div className="topnav-dropdown-header">
-                <span>Atividades Recentes</span>
-              </div>
-              <div className="scroll-pane">
-                <ul className="media-list scroll-content" id="recebe-alert-consulta">
-                </ul>
-              </div>
-              <div className="topnav-dropdown-footer">
-                <a href="https://ambteste.credtudo.com.br/painel/atividades-recentes.php">Ver todos as Atividades Recentes</a>
-              </div>
-            </div>
+            </button>
+          </div>
+          <div className="p-2">
+            <button id="mensagens">
+              <i className="ti ti-bell"></i>
+            </button>
           </div>
         </div>
       </header>
@@ -126,23 +84,23 @@ function Body() {
         <ContainerSecundario >
           <BrowserRouter>
             <Routes>
-              <Route path="/" element={<Home/>}/>
-              <Route path="/lojista" element={<Lojista/>} />
+              <Route path="/" element={<Home />} />
+              <Route path="/lojista" element={<Lojista />} />
               <Route path="/registrar_venda" element={<RegistrarVenda />} />
-              <Route path= "/cadastrar_vendedor" element={<CadastrarVendedor/>}/>
-              <Route path="/solicitar_liberacao" element={<SolicitarLiberacao/>}/>
+              <Route path="/cadastrar_vendedor" element={<CadastrarVendedor />} />
+              <Route path="/solicitar_liberacao" element={<SolicitarLiberacao />} />
               <Route path="/consultar_venda" element={<ConsultarVenda />} />
-              <Route path="/administracao" element={<Administracao/>}/>
-              <Route path="/liberar_veiculo" element={<LiberarVeiculo/>}/>
-              <Route path="/baixar_veiculo" element={<BaixarVeiculo/>}/>
-              <Route path="/relatorios_movimentacao" element={<RelatoriosMovimentacao/>}/>
-              <Route path="/historico" element={<HistoricoVeiculo/>}/>
-              <Route path="/gestao_estoque" element={<GestaoEstoque/>}/>
-              <Route path="/relatorio_estoque" element={<RelatorioEstoque/>}/>
+              <Route path="/administracao" element={<Administracao />} />
+              <Route path="/liberar_veiculo" element={<LiberarVeiculo />} />
+              <Route path="/baixar_veiculo" element={<BaixarVeiculo />} />
+              <Route path="/relatorios_movimentacao" element={<RelatoriosMovimentacao />} />
+              <Route path="/historico" element={<HistoricoVeiculo />} />
+              <Route path="/gestao_estoque" element={<GestaoEstoque />} />
+              <Route path="/relatorio_estoque" element={<RelatorioEstoque />} />
               <Route path="/cadastro_veiculo" element={<CadastroVeiculo />} />
               <Route path="/cadastro_veiculo_bin" element={<CadastroVeiculoBIN />} />
               <Route path="/editar_dado" element={<EditarDado />} />
-              <Route path="/dashboard" element={<Dashboard/>}/>
+              <Route path="/dashboard" element={<Dashboard />} />
               {/* Adicione outras rotas conforme necessário */}
             </Routes>
           </BrowserRouter>

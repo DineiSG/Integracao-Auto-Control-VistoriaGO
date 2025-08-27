@@ -90,11 +90,24 @@ const CadastroVeiculo = () => {
     return (
 
         <ContainerSecundario>
-            <div className='container d-flex'>
-                <div className='path'>
-                    <a className="link_a" href="/">Gestão</a> <i className='ti ti-angle-right' id='card-path'></i>
-                    <a className="link_a" href="/gestao_estoque">Gestão de Estoque</a> <i className='ti ti-angle-right' id='card-path'></i>
-                    <p className='atual'>Cadastro de Veículos</p>
+
+            <div className='container d-flex flex-column ' id="path" >
+                <div className="d-flex align-items-start ">
+                    <div className="p-2">
+                        <a className="link_a" href="/">Gestão</a>
+                    </div>
+                    <div className="p-2">
+                        <i className=' ti ti-angle-right ' id='card-path' />
+                    </div>
+                    <div className="p-2">
+                        <a className="link_a" href="/gestao_estoque">Gestão de Estoque</a>
+                    </div>
+                    <div className="p-2">
+                        <i className=' ti ti-angle-right ' id='card-path' />
+                    </div>
+                    <div className="p-2">
+                        <p className='atual'>Cadastro de Veículos</p>
+                    </div>
                 </div>
             </div>
 

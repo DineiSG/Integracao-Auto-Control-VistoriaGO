@@ -20,24 +20,19 @@ p {
 	font-family: 'Saira';
 }
 
-.path {
+#path {
 	display: inherit;
-	padding: 40px 25px 25px;
-	margin: 10px 30px;
-	position: absolute;
-	border: 0 !important;
-	background-color: transparent;
+	padding: 5px 20px;
+	margin: 10px 0px;
+	position:fixed;
 	background: #F0F1F3;
-	border-radius: 0;
 	font-family: 'Saira';
 	font-size: 12px;
-	line-height: 16px;
-	z-index: 12;
-
+	
 }
 
 @media screen and (max-width: 1300px) {
-	.path {
+	#path {
 		display: none !important;
 	}
 }
@@ -63,7 +58,6 @@ p {
 	padding: 8px 20px 4px;
 	line-height: 48px;
 	color: #333333;
-	
 	font-family: 'Saira';
 	font-size: 15px;
 	font-weight: 500;
@@ -77,17 +71,20 @@ p {
 	padding-right: 16px;
 	padding-bottom: 15px;
 	margin-bottom: 50px;
+	margin-top:-35px;
 	vertical-align: baseline;
+
 }
 
 .panel-heading {
-	padding: 8px 20px 4px;
-	line-height: 48px;
+	padding: 5px 3px 0px;
+	line-height: 45px;
 	color: #333333;
 	display: flex;
 	font-family: 'Saira';
 	font-size: 15px;
 	font-weight: 500;
+	
 }
 
 .sub-panel-heading {

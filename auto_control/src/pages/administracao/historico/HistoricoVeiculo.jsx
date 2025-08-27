@@ -137,10 +137,24 @@ const HistoricoVeiculo = () => {
 
     return (
         <ContainerSecundario >
-            <div className='container d-flex'>
-                <div className='path'>
-                    <a className="link_a" href="/">Gestão</a><i className=' ti ti-angle-right ' id='card-path'></i><a className="link_a" href="\administracao">Administração</a>
-                    <i className=' ti ti-angle-right ' id='card-path'></i><p className='atual'>Histórico </p>
+
+            <div className='container d-flex flex-column ' id="path" >
+                <div className="d-flex align-items-start ">
+                    <div className="p-2">
+                        <a className="link_a" href="/">Gestão</a>
+                    </div>
+                    <div className="p-2">
+                        <i className=' ti ti-angle-right ' id='card-path' />
+                    </div>
+                    <div className="p-2">
+                        <a className="link_a" href="\administracao">Administração</a>
+                    </div>
+                    <div className="p-2">
+                        <i className=' ti ti-angle-right ' id='card-path' />
+                    </div>
+                    <div className="p-2">
+                        <p className='atual'>Histórico do Veículo </p>
+                    </div>
                 </div>
             </div>
             <div className="container d-flex justify-content-center card-container">
@@ -157,8 +171,8 @@ const HistoricoVeiculo = () => {
                         </div>
                         <div className="d-flex justify-content-between">
                             <div className="p-2 ">
-                                <Input type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}
-                                    placeholder={"Placa"} id='criterios-pesquisa' onBlur={handleBlur} />
+                                <Input type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} tooltipText="Buscar por um veículo pela placa" tooltipPlacement="top"
+                                    placeholder={"Filtro"} id='criterios-pesquisa' onBlur={handleBlur} />
                             </div>
                             <div className="p-1 ">
                                 <Select value={pageSize} onChange={(e) => setPageSize(Number(e.target.value))} options={options} className={"quantidade"} />
@@ -206,8 +220,6 @@ const HistoricoVeiculo = () => {
                                 </div>
                             </div>
                         </div>
-                        <br />
-                        <br />
                     </>
                 </Box>
             </div>

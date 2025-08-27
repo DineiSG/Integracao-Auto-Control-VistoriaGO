@@ -86,20 +86,34 @@ const ConsultarVenda = () => {
 
     return (
         <ContainerSecundario>
-            <div className='container d-flex'>
-                <div className='path'>
-                    <a className="link_a" href="/">Gestão</a><i className=' ti ti-angle-right ' id='card-path'></i>
-                    <a className="link_a" href="/lojista">Lojista</a><i className=' ti ti-angle-right ' id='card-path'></i><p className='atual'>Consultar Venda </p>
+            <div className='container d-flex flex-column ' id="path" >
+                <div className="d-flex align-items-start ">
+                    <div className="p-2">
+                        <a className="link_a" href="/">Gestão</a>
+                    </div>
+                    <div className="p-2">
+                        <i className=' ti ti-angle-right ' id='card-path' />
+                    </div>
+                    <div className="p-2">
+                        <a className="link_a" href="/lojista">Lojista</a>
+                    </div>
+                    <div className="p-2">
+                        <i className=' ti ti-angle-right ' id='card-path' />
+                    </div>
+                    <div className="p-2">
+                        <p className='atual'>Consultar Venda </p>
+                    </div>
                 </div>
             </div>
             <div className="container d-flex justify-content-center card-container">
                 <Box onSubmit>
-                    <div className='panel-heading'>
-                        <p>Informe uma placa para buscar os dados da compra de um veículo</p>
-                    </div>
+
                     <div className='panel-heading'>
                         <i className='ti ti-car' id="ti-black" ></i>
                         <p>DADOS DO VEÍCULO</p>
+                    </div>
+                    <div className='panel-heading'>
+                        <p>Informe uma placa para buscar os dados da venda de um veículo</p>
                     </div>
                     <Form >
                         <div className="col-12 col-md-2">

@@ -106,8 +106,8 @@ const RelatorioEstoque = () => {
             Marca: filtrados.marca,
             Modelo: filtrados.modelo,
             Cor: filtrados.cor,
-            Ano_Fabricacao:filtrados.ano_fabricacao,
-            Ano_Modelo:filtrados.ano_modelo,
+            Ano_Fabricacao: filtrados.ano_fabricacao,
+            Ano_Modelo: filtrados.ano_modelo,
             Placa: filtrados.placa,
             Renavan: filtrados.renavan,
             Dias_Estoque: filtrados.dias_estoque
@@ -121,15 +121,27 @@ const RelatorioEstoque = () => {
 
     return (
         <ContainerSecundario >
-            <div className='container d-flex'>
-                <div className='path'>
-                    <a className="link_a" href="/">Gestão</a><i className=' ti ti-angle-right ' id='card-path'></i><a className="link_a" href="/gestao_estoque">Gestão de Estoque</a>
-                    <i className=' ti ti-angle-right ' id='card-path'></i><p className='atual'>Estoque </p>
+            <div className='container d-flex flex-column ' id="path" >
+                <div className="d-flex align-items-start ">
+                    <div className="p-2">
+                        <a className="link_a" href="/">Gestão</a>
+                    </div>
+                    <div className="p-2">
+                        <i className=' ti ti-angle-right ' id='card-path' />
+                    </div>
+                    <div className="p-2">
+                        <a className="link_a" href="/gestao_estoque">Gestão de Estoque</a>
+                    </div>
+                    <div className="p-2">
+                        <i className=' ti ti-angle-right ' id='card-path' />
+                    </div>
+                    <div className="p-2">
+                        <p className='atual'>Estoque </p>
+                    </div>
                 </div>
             </div>
             <div className="container d-flex justify-content-center card-container">
                 <Box>
-
                     <div className='d-flex justify-content-between panel-heading'>
                         <div className=' panel-heading '>
                             <div className="p-1 ">

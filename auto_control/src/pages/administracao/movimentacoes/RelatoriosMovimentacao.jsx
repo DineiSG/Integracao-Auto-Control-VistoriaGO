@@ -24,11 +24,11 @@ const RelatoriosMovimentacao = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const tabelaRef = useRef(null);
 
-
     //Recebendo os veículos da tabela
     const { data: baixas } = useGetData(`/baixas`);
 
     const { data: liberacoes } = useGetData(`/liberacoes`);
+
 
     const handleSelectChange = (e) => {
         setSelect(e.target.value);
@@ -191,13 +191,28 @@ const RelatoriosMovimentacao = () => {
         XLSX.utils.book_append_sheet(workbook, worksheet, "Data");
         XLSX.writeFile(workbook, `Relatorio de ${select === 'baixas' ? 'Baixas' : 'Liberacoes'}.xlsx`);
     };
-    
+
+
+
     return (
         <ContainerSecundario >
-            <div className='container d-flex'>
-                <div className='path'>
-                    <a className="link_a" href="/">Gestão</a><i className=' ti ti-angle-right ' id='card-path'></i><a className="link_a" href="\administracao">Administração</a>
-                    <i className=' ti ti-angle-right ' id='card-path'></i><p className='atual'>Relatórios </p>
+            <div className='container d-flex flex-column ' id="path" >
+                <div className="d-flex align-items-start ">
+                    <div className="p-2">
+                        <a className="link_a" href="/">Gestão</a>
+                    </div>
+                    <div className="p-2">
+                        <i className=' ti ti-angle-right ' id='card-path' />
+                    </div>
+                    <div className="p-2">
+                        <a className="link_a" href="\administracao">Administração</a>
+                    </div>
+                    <div className="p-2">
+                        <i className=' ti ti-angle-right ' id='card-path' />
+                    </div>
+                    <div className="p-2">
+                        <p className='atual'>Relatórios de Baixas e Liberações </p>
+                    </div>
                 </div>
             </div>
             <div className="container d-flex justify-content-center card-container">
@@ -224,13 +239,16 @@ const RelatoriosMovimentacao = () => {
                     </div>
                     {select === 'baixas' && (
                         <>
-                            <div className="d-flex justify-content-end">
-                                <div className="p-2 ">
-                                    <Input type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} placeholder={"Filtro"} id='criterios-pesquisa' />
+                            <div className="d-flex justify-content-end" >
+                                <div className="p-2 " >
+                                    <Input type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}
+                                        placeholder={"Filtro"} id='criterios-pesquisa' tooltipText="Filtrar por placa ou nome da loja"
+                                        tooltipPlacement="top" />
                                 </div>
                                 <br />
                                 <div className="p-2 ">
-                                    <Input type="date" value={filterDate} onChange={e => setFilterDate(e.target.value)} />
+                                    <Input type="date" value={filterDate} onChange={e => setFilterDate(e.target.value)} tooltipText="Buscar por um veículo em uma data específica"
+                                        tooltipPlacement="top"/>
                                 </div>
                                 <div className="p-2">
                                     <div className="p-1 ">
@@ -281,11 +299,13 @@ const RelatoriosMovimentacao = () => {
                         <>
                             <div className="d-flex justify-content-end">
                                 <div className="p-2 ">
-                                    <Input type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} placeholder={"Filtro"} id='criterios-pesquisa' />
+                                    <Input type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} placeholder={"Filtro"} id='criterios-pesquisa' tooltipText="Filtrar por placa ou nome da loja"
+                                        tooltipPlacement="top"  />
                                 </div>
                                 <br />
                                 <div className="p-2 ">
-                                    <Input type="date" value={filterDate} onChange={e => setFilterDate(e.target.value)} />
+                                    <Input type="date" value={filterDate} onChange={e => setFilterDate(e.target.value)} tooltipText="Buscar por um veículo em uma data específica"
+                                        tooltipPlacement="top"/>
                                 </div>
                                 <div className="p-2">
                                     <div className="p-1 ">

@@ -158,7 +158,7 @@ const RegistrarVenda = () => {
       valorVenda, valorFipe, valorFinanciamento, valorEntrada, tipoVenda, instituicao, dataRegistro, observacoes
     }
 
-    dados = toUpperFields(dados, ['placa', 'marca', 'modelo', 'cor', 'unidade', 'comprador', 'vendedor', 'endereco', 'bairro','rua', 'cidade', 'uf', 'instituicao', 'tipoVenda'])
+    dados = toUpperFields(dados, ['placa', 'marca', 'modelo', 'cor', 'unidade', 'comprador', 'vendedor', 'endereco', 'bairro', 'rua', 'cidade', 'uf', 'instituicao', 'tipoVenda'])
     // Padroniza para caixa alta
     window.confirm("Confirma o registro da venda?")
     //console.log('Dados a serem enviados: ', dados)
@@ -189,10 +189,24 @@ const RegistrarVenda = () => {
 
   return (
     <ContainerSecundario>
-      <div className='container d-flex'>
-        <div className='path'>
-          <a className="link_a" href="/">Gestão</a><i className=' ti ti-angle-right ' id='card-path'></i>
-          <a className="link_a" href="/lojista">Lojista</a><i className=' ti ti-angle-right ' id='card-path'></i><p className='atual'>Registrar Venda </p>
+
+      <div className='container d-flex flex-column ' id="path" >
+        <div className="d-flex align-items-start ">
+          <div className="p-2">
+            <a className="link_a" href="/">Gestão</a>
+          </div>
+          <div className="p-2">
+            <i className=' ti ti-angle-right ' id='card-path' />
+          </div>
+          <div className="p-2">
+            <a className="link_a" href="/lojista">Lojista</a>
+          </div>
+          <div className="p-2">
+            <i className=' ti ti-angle-right ' id='card-path' />
+          </div>
+          <div className="p-2">
+            <p className='atual'>Registrar Venda </p>
+          </div>
         </div>
       </div>
       <div className="container d-flex justify-content-center card-container">
