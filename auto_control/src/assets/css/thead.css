@@ -1,6 +1,9 @@
-header {
+#barra_navegacao {
 	background-color: #26ACE2;
 	height: 66px;
+	position: sticky;/*Fixa a barra de navegação no topo*/
+	top: 0;
+	z-index: 1030;
 }
 
 #topnav {
@@ -22,7 +25,7 @@ header {
 	text-align: center;
 	border: none;
 	background-color: #26ACE2;
-	
+
 }
 
 
@@ -46,4 +49,3 @@ header {
 	text-align: center;
 	border: none
 }
-

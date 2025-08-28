@@ -51,7 +51,7 @@ function Body() {
 
   return (
     <ContainerPrincipal className="container-principal">
-      <header className="navbar navbar-expand-lg d-flex align-items-center">
+      <header className="navbar navbar-expand-lg d-flex align-items-center " id="barra_navegacao">
         <div className="container-fluid">
           {/*Responsável pelo icone que aciona a barra lateral */}
           <button className="navbar-brand icon-bg p-0" onClick={toggleSidebar} >
@@ -78,7 +78,7 @@ function Body() {
         </div>
       </header>
       <div className="menu_container">
-        {showSidebar && (
+       {showSidebar && (
           <Sidebar id="sidebar"></Sidebar>
         )}
         <ContainerSecundario >

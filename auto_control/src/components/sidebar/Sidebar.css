@@ -1,7 +1,7 @@
 .corpo_menu {
   font-family: 'Saira', sans-serif;
   list-style: none;
-  background-color: #242121;
+  background-color: #333333;
   width: 275px;
   height: auto;
   font-size: 15px;
@@ -21,20 +21,50 @@
 
 /*itens do menu*/
 
-
 .item_menu {
   text-decoration: none;
   color: #fff;
   background-color: #484848;
-  padding: 12px 16px;
+  padding: 12px 155px 12px 20px;
+  border: none;
+  width: 275px;
+  font-weight: 400
 }
+
 #item_menu {
   text-decoration: none;
   color: #fff;
   background-color: #484848;
   padding: 12px 16px;
 }
+#botoes{
+    text-decoration: none;
+  color: #fff;
+  background-color: #484848;
+  padding: 0px 0px;
+  margin: 0px 0px 4px;
+  list-style: none;
+  border: none;
+  height: 47px;
+  border-radius:0px;
+}
 
+.botoes {
+  text-decoration: none;
+  color: #fff;
+  background-color: #484848;
+  padding: 0px 0px;
+  margin: 0px 0px 4px;
+  list-style: none;
+  border: none;
+  height: 47px;
+  border-radius:0px;
+}
+
+.botoes :hover {
+  background-color: #26ace2;
+  ;
+}
 
 .separator {
   font-size: 12px;
@@ -46,22 +76,23 @@
   height: 40px;
 }
 
+#ti {
+  margin-right: 16px;
+  color: #26ace2;
+}
+
+#ti :hover {
+  color: #fff;
+}
+
+
 .ti {
   margin-right: 16px;
-  color: #ffffff
-}
-
-
-.botoes {
-  text-decoration: none;
   color: #fff;
-  background-color: #484848;
-  padding: 12px 16px;
-  margin: 0px 0px 3px;
-  list-style: none;
-
-
 }
+
+
+
 
 @media print {
 

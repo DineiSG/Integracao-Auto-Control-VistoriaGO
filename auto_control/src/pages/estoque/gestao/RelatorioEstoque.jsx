@@ -154,10 +154,10 @@ const RelatorioEstoque = () => {
                         <div className="d-flex flex-row-reverse" >
                             <div className="d-flex justify-content-start">
                                 <div className="p-2 ">
-                                    <Input type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} id='criterios-pesquisa' />
+                                    <Input type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} id='criterios-pesquisa' tooltipPlacement="top" tooltipText={"Busque pela placa, loja, marca, modelo ou cor."}/>
                                 </div>
                                 <div className="p-2 ">
-                                    <Input type="date" value={filterDate} onChange={e => setFilterDate(e.target.value)} />
+                                    <Input type="date" value={filterDate} onChange={e => setFilterDate(e.target.value)} tooltipPlacement="top" tooltipText={"Busque pela data de registro do veículo."} />
                                 </div>
                                 <div className="p-1 ">
                                     <Select value={pageSize} onChange={(e) => setPageSize(Number(e.target.value))} options={options} className={"quantidade"} />

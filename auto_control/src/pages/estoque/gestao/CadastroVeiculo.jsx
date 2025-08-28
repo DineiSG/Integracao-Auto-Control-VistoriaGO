@@ -46,17 +46,7 @@ const CadastroVeiculo = () => {
         const data_registro = formatTimestamp(new Date())
 
         // Envia nome da loja no campo 'unidade'
-        let dados = {
-            placa,
-            data_registro,
-            unidade, // nome da loja
-            marca,
-            modelo,
-            cor,
-            ano_fabricacao,
-            ano_modelo,
-            renavan
-        }
+        let dados = { placa, data_registro, unidade, marca, modelo, cor, ano_fabricacao, ano_modelo, renavan }
 
         console.log('Dados a serem enviados: ', dados)
         // Padroniza para caixa alta

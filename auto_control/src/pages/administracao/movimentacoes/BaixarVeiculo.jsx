@@ -7,7 +7,7 @@ import Button from '../../../components/button/Button';
 import "../../../assets/css/thead.css";
 import "../../../assets/css/themify-icons.css"
 
-import { formatDateInfo } from '../../../hooks/formatDate';
+import { formatDateInfo, formatTimestamp } from '../../../hooks/formatDate';
 import { useState, useEffect, useRef } from "react";
 import { useGetData } from '../../../services/useGetData';
 import { usePostData } from '../../../services/usePostData';
@@ -15,6 +15,7 @@ import { useDeleteData } from '../../../services/useDeleteData';
 
 
 const BaixarVeiculo = () => {
+
     const [placa, setPlaca] = useState('')
     const [solicitante, setSolicitante] = useState('')
     const [observacoes, setObservacoes] = useState('')
@@ -23,7 +24,7 @@ const BaixarVeiculo = () => {
     const [mostrarSelect, setMostrarSelect] = useState(false)
     const [dadosVeiculo, setDadosVeiculo] = useState({
         id: '', placa: '', marca: '', modelo: '', cor: '', observacoes: '', renavan: '',
-        unidade: '', motivo: '', dataRegistro: '', data_cadastro: ''
+        unidade: '', motivo: '', data_cadastro: '', ano_fabricacao: '', ano_modelo: '', dataRegistro: '',
     })
 
     // buscando os dados no bd
@@ -41,6 +42,7 @@ const BaixarVeiculo = () => {
 
     // Função chamada quando o input da placa perde o foco
 
+
     const handleBlur = () => {
 
         const placaM = placa.trim().toUpperCase();
@@ -56,7 +58,7 @@ const BaixarVeiculo = () => {
             setMostrarSelect(false);
             setDadosVeiculo({
                 id: '', placa: '', marca: '', modelo: '', cor: '', observacoes: '', renavan: '',
-                unidade: '', motivo: '', dataRegistro: '', data_cadastro: '', ano_fabricacao: '', ano_modelo: ''
+                unidade: '', motivo: '', data_cadastro: '', ano_fabricacao: '', ano_modelo: '', dataRegistro: ''
             });
             setSelectedMotivo('');
             setSolicitante('');
@@ -108,9 +110,13 @@ const BaixarVeiculo = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
 
+        const dataRegistro = formatTimestamp(new Date())
+
         let dados = {
-            placa, id: veiculo.id, marca: dadosVeiculo.marca, modelo: dadosVeiculo.modelo, cor: dadosVeiculo.cor, renavan: dadosVeiculo.renavan,
-            unidade: dadosVeiculo.unidade, data_cadastro: dadosVeiculo.data_cadastro, solicitante, observacoes, motivo: selectedMotivo
+            id: veiculo.id, placa, marca: dadosVeiculo.marca, modelo: dadosVeiculo.modelo, cor: dadosVeiculo.cor, renavan: dadosVeiculo.renavan,
+            unidade: dadosVeiculo.unidade, data_cadastro: dadosVeiculo.data_cadastro, solicitante, observacoes, motivo: selectedMotivo,
+            ano_fabricacao: veiculo.ano_fabricacao, ano_modelo: dadosVeiculo.ano_modelo, dataRegistro
+
         }
 
         dados = toUpperFields(dados, ['placa', 'marca', 'modelo', 'cor', 'unidade', 'motivo', 'solicitante', 'observacoes'])
@@ -156,7 +162,7 @@ const BaixarVeiculo = () => {
                 </div>
             </div>
             <div className="container d-flex justify-content-center card-container">
-                <Box onSubmit={handleSubmit}>
+                <Box>
                     <div className='panel-heading'>
                         <i className='ti ti-close' id="ti-black" ></i>
                         <p>REALIZAR A BAIXA DE UM VEÍCULO <br /> Informe a placa do veículo para obter os demais dados</p>

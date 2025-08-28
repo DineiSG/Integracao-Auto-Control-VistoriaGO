@@ -1,12 +1,12 @@
 import '../sidebar/Sidebar.css';
 
-function ButtonSidebar({ href, iconClass, text,classNameLink }) {
+function ButtonSidebar({ href, iconClass, text,classNameLink, texto_botao }) {
   return (
 
-    <a className={classNameLink} href={href}>
-      <i className={iconClass}></i>
-      <span>{text}</span>
-    </a>
+    <button className={classNameLink} href={href}>
+      <i className={iconClass} id='ti' ></i>
+      <span className={texto_botao}>{text}</span>
+    </button>
 
 
   );
