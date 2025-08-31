@@ -42,7 +42,7 @@ const AnoModelo = () => {
       <div ref={graphRef}>
         <div className='panel-heading'>
           <i className='ti ti-bar-chart-alt' id="ti-black" ></i>
-          <p>VEICULOS POR ANO MODELO <br /> Abaixo está um gráfico contendo as quantidades de veiculo por ano modelo</p>
+          <p>VEICULOS POR ANO MODELO </p>
         </div>
         <div style={{ width: "1000px", height: "400px" }}>
           <Bar data={chartData} options={chartOptions} />

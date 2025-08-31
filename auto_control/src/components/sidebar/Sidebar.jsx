@@ -2,6 +2,7 @@ import { useEffect, useRef, /*useState*/ } from "react";
 import "../../assets/css/themify-icons.css"
 import './Sidebar.css';
 import ButtonSidebar from "../button_sidebar/ButtonSidebar";
+import Dropdown from "../dropdown/Dropdown";
 
 
 
@@ -64,7 +65,7 @@ function Sidebar() {
             <ButtonSidebar iconClass={"ti ti-stats-up "} classNameLink={"item_menu"} text={"Dashboard"} href={"#"} />
           </li>
           <li className="botoes" >
-            <ButtonSidebar iconClass={"ti ti-time"} classNameLink={"item_menu"} text={"Atividades"} href={"#"} />
+            <ButtonSidebar iconClass={"ti ti-time"} classNameLink={"item_menu"} text={"Atividades Recentes"} href={"#"} />
           </li>
           <li className="botoes">
             <ButtonSidebar iconClass={"ti ti-panel"} classNameLink={"item_menu"} text={"Administrativo"} href={"#"} />
@@ -73,7 +74,7 @@ function Sidebar() {
             <ButtonSidebar iconClass={"ti ti-calendar"} classNameLink={"item_menu"} text={"Agendamento/OS"} href={"#"} />
           </li>
           <li className="botoes">
-            <ButtonSidebar iconClass={"ti ti-time"} classNameLink={"item_menu"} text={"Gestão de Vistorias"} href={"#"} />
+            <ButtonSidebar iconClass={"ti ti-time"} classNameLink={"item_menu"} text={"Gestao de Vistorias"} href={"#"} />
           </li>
           <li className="botoes">
             <ButtonSidebar iconClass={"ti ti-time"} classNameLink={"item_menu"} text={"Dashboard"} href={"#"} />
@@ -81,30 +82,31 @@ function Sidebar() {
           <li className="botoes">
             <ButtonSidebar iconClass={"ti ti-time"} classNameLink={"item_menu"} text={"Dashboard"} href={"#"} />
           </li>
-
-
-
           <li className="separator"><span>CONSULTE</span></li>
-          <div className="dropdown" >
-            <a className="btn btn-secondary dropdown-toggle  item_menu ti ti-time" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" id="item_menu">
-              Dropdown link 1
-            </a>
-            <ul className="dropdown-menu " >
-              <li><a className="dropdown-item " href="#" >Action</a></li>
-              <li><a className="dropdown-item" href="#">Another action</a></li>
-              <li><a className="dropdown-item" href="#">Something else here</a></li>
-            </ul>
-          </div>
-          <div className="dropdown">
-            <a className="btn btn-secondary dropdown-toggle item_menu" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Dropdown link 2
-            </a>
-            <ul className="dropdown-menu">
-              <li><a className="dropdown-item" href="#">Action</a></li>
-              <li><a className="dropdown-item" href="#">Another action</a></li>
-              <li><a className="dropdown-item" href="#">Something else here</a></li>
-            </ul>
-          </div>
+          <li className="botoes">
+            <Dropdown label={"Crédito"} classNameDrop={"dropdown"} iconClass={"ti ti-wallet"}>
+              <li className="botoes">
+                <ButtonSidebar classNameLink={"item_menu"} text={"114 - NOVA LOCALIZA VEICULOS"} href={"#"} />
+              </li>
+              <li className="botoes">
+                <ButtonSidebar iconClass={"ti ti-time"} classNameLink={"item_menu"} text={"Dashboard"} href={"#"} />
+              </li>
+            </Dropdown>
+          </li>
+          <li className="botoes">
+            <Dropdown label={"Crédito"} classNameDrop={"dropdown"} iconClass={"ti ti-wallet"}>
+              <li className="botoes">
+                <ButtonSidebar iconClass={"ti ti-time"} classNameLink={"item_menu"} text={"Dashboard"} href={"#"} />
+              </li>
+              <li className="botoes">
+                <ButtonSidebar iconClass={"ti ti-time"} classNameLink={"item_menu"} text={"Dashboard"} href={"#"} />
+              </li>
+            </Dropdown>
+            <li className="botoes">
+              <ButtonSidebar iconClass={"ti ti-time"} classNameLink={"item_menu"} text={"Dashboard"} href={"#"} />
+            </li>
+          </li>
+
         </div>
 
 

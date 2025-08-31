@@ -42,7 +42,7 @@ const Marca = () => {
       <div ref={graphRef}>
         <div className='panel-heading'>
           <i className='ti ti-bar-chart-alt' id="ti-black" ></i>
-          <p>VEICULOS POR MARCA <br /> Abaixo está um gráfico contendo os veículos por marca</p>
+          <p>VEICULOS POR MARCA</p>
         </div>
         <div style={{ width: "1000px", height: "400px" }}>
           <Bar data={chartData} options={chartOptions} />

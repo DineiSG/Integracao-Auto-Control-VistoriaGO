@@ -53,7 +53,7 @@ const Estoque = () => {
             <div style={{ width: "1000px", height: "400px", alignItems:"center" }} ref={graphRef}>
                 <div className='panel-heading'>
                     <i className='ti ti-bar-chart-alt' id="ti-black" ></i>
-                    <p>ESTOQUE DAS LOJAS EM %<br /> Quantidade total: {total} veiculos </p>
+                    <p>ESTOQUE DAS LOJAS<br /> TOTAL: {total} veiculos </p>
                 </div>
                 <div style={{ height: 260 }}  >
                     <Pie options={chartOptions} data={chartData} id="graficos" />

@@ -48,7 +48,7 @@ const Administracao = () => {
                                 text_footer={<>Consultar o historico do veículo</>} />
                         </div>
                         <div className="card col-md-4" id="bloco"  >
-                            <Card classBody={"card_home"} classLink={"/controle_acessos"} classNameIcon={"ti ti-exchange-vertical card-ti"} classFooter={"nome_footer"} text_title={"HISTÓRICO DE ACESSO"}
+                            <Card classBody={"card_home"} classLink={"/historico_acessos"} classNameIcon={"ti ti-exchange-vertical card-ti"} classFooter={"nome_footer"} text_title={"HISTÓRICO DE ACESSO"}
                                 text_footer={<>Consultar o historico de entradas<br /> e saidas de um veículo</>} />
                         </div>
                         <div className="card col-md-4" id="bloco"  >

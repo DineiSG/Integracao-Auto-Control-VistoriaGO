@@ -7,11 +7,11 @@ import { useGetArray } from "../../../../services/useGetArray"
 import useGroupedChart from "../../../../hooks/useGroupedChart"; // seu hook atual
 import { useFilterPeriodo } from "../../../../hooks/useFilterPeriodo"; // o hook criado acima
 
-const VendaPeriodo = () => {
+const VendaVendedor = () => {
     // Busca todas as vendas
     const { data: vendas = [] } = useGetArray("/vendas");
 
-    
+
 
     // Hook de período (defina aqui a chave da data na sua venda: "dataVenda", "createdAt", etc.)
     const { startDate, endDate, setStartDate, setEndDate, filteredData, status, message, hasResults, } = useFilterPeriodo({
@@ -26,7 +26,7 @@ const VendaPeriodo = () => {
     const { chartData, chartOptions } = useGroupedChart({
         data: filteredData, // <- somente o período selecionado
         datasetLabel: "Vendas por Periodo",
-        groupByKey: "unidade",
+        groupByKey: "vendedor",
         aggregate: "count",
         chartType: "bar",
         sortBy: "value",
@@ -51,7 +51,7 @@ const VendaPeriodo = () => {
             {/* Cabeçalho */}
             <div className="panel-heading">
                 <i className="ti ti-money" id="ti-black"></i>
-                <p> VENDAS EM UM PERÍODO (Quantidade total por loja) </p>
+                <p> VENDAS POR VENDEDOR (Por período) </p>
             </div>
 
             {/* Filtros de período */}
@@ -68,7 +68,7 @@ const VendaPeriodo = () => {
             </div>
 
             {/* Mensagens de estado */}
-            {status !== "ok" && ( <p className={status === "error" ? "text-danger" : "text-muted"}> {message} </p> )}
+            {status !== "ok" && (<p className={status === "error" ? "text-danger" : "text-muted"}> {message} </p>)}
 
             {/* Gráfico + botão PDF: só aparecem quando há resultados */}
             {hasResults && (
@@ -85,6 +85,6 @@ const VendaPeriodo = () => {
             )}
         </div>
     );
-};
+}
 
-export default VendaPeriodo;
+export default VendaVendedor

@@ -31,6 +31,8 @@ import ConsultarVenda from "../lojista/vendas/ConsultarVenda";
 import SolicitarLiberacao from "../lojista/movimentacoes/SolicitarLiberacao";
 import CadastrarVendedor from "../lojista/vendas/CadastrarVendedor";
 import Dashboard from "../administracao/dashboard/Dashboard";
+import HistoricoAcessos from "../administracao/historico/HistoricoAcessos";
+import ModalCam from "../../components/modal/ModalCam";
 
 
 
@@ -75,13 +77,16 @@ function Body() {
               <i className="ti ti-bell"></i>
             </button>
           </div>
+          
         </div>
+        <ModalCam/>
       </header>
       <div className="menu_container">
        {showSidebar && (
           <Sidebar id="sidebar"></Sidebar>
         )}
         <ContainerSecundario >
+          
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Home />} />
@@ -101,6 +106,7 @@ function Body() {
               <Route path="/cadastro_veiculo_bin" element={<CadastroVeiculoBIN />} />
               <Route path="/editar_dado" element={<EditarDado />} />
               <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/historico_acessos" element={<HistoricoAcessos/>}/>
               {/* Adicione outras rotas conforme necessário */}
             </Routes>
           </BrowserRouter>

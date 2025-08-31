@@ -1,12 +1,15 @@
 /*Essa pagina receberá os componentes de acesso à Dashboard */
-import React, { useState } from 'react'
+import { useState } from 'react'
 import ContainerSecundario from '../../../components/container/ContainerSecundario'
 import Box from '../../../components/box/Box'
 import Marca from './estatisticas/Marca'
 import AnoModelo from './estatisticas/AnoModelo'
 import Estoque from './estatisticas/Estoque'
 import VendaPeriodo from './estatisticas/VendaPeriodo'
-import VendaLoja from './estatisticas/VendaLoja'
+import VendaVendedor from './estatisticas/VendaVendedor'
+import VendaInstituicao from './estatisticas/VendaInstituicao'
+import VendaPeriodoValor from './estatisticas/VendaPeriodoValor'
+import VendaInstituicaoQuantidade from './estatisticas/VendaInstituicaoQuantidade'
 
 const Dashboard = () => {
 
@@ -16,10 +19,6 @@ const Dashboard = () => {
   const handleSelectChange = (e) => {
     setSelect(e.target.value);
   }
-
-
-
-
 
   return (
     <ContainerSecundario>
@@ -61,15 +60,16 @@ const Dashboard = () => {
                 <select className="select-item" value={select} onChange={handleSelectChange} id="select-estatisticas">
                   <option value='selecione'>Selecione uma opção</option>
                   <option value='estoque'>Estoque Lojas</option>
-                  <option value='marca'>Marcas</option>
-                  <option value='ano_modelo'>Ano Modelo</option>
-                  <option value='vendas_loja'>Vendas Por Loja</option>
-                  <option value='vendas_periodo'>Vendas Por Período</option>
+                  <option value='marca'>Veiculos Por Marca</option>
+                  <option value='ano_modelo'>Veiculos Por Ano Modelo</option>
+                  <option value='vendas_periodo'>Vendas Por Loja</option>
+                  <option value='vendas_instituicao'>Vendas Por Instituição</option>
+                  <option value='vendas_vendedor'>Vendas Por Vendedor</option>
                 </select>
               </div>
             </div>
           </div>
- 
+
           {select === 'estoque' && (
             <div className="container d-flex justify-content-center " >
               <Estoque />
@@ -85,24 +85,48 @@ const Dashboard = () => {
               <AnoModelo />
             </div>
           )}
-          {select === 'vendas_loja' && (
+          {select === 'vendas_periodo' && (
+            <>
+              <div className="container d-flex justify-content-center ">
+                <VendaPeriodo />
+              </div>
+              <hr />
+              <br />
+              <br />
+              <div className="container d-flex justify-content-center ">
+                <VendaPeriodoValor />
+              </div>
+            </>
+
+          )}
+          {select === 'vendas_vendedor' && (
             <div className="container d-flex justify-content-center ">
-              <VendaLoja></VendaLoja>
+              <VendaVendedor />
             </div>
           )}
-          {select === 'vendas_periodo' && (
-            <div className="container d-flex justify-content-center ">
-              <VendaPeriodo />
-            </div>
+          {select === 'vendas_instituicao' && (
+            <>
+              < div className="container d-flex justify-content-center ">
+                <VendaInstituicaoQuantidade />
+              </div>
+              <hr />
+              <br />
+              <br />
+              < div className="container d-flex justify-content-center ">
+                <VendaInstituicao />
+              </div>
+
+            </>
+
           )}
 
 
 
 
         </Box>
-      </div>
+      </div >
 
-    </ContainerSecundario>
+    </ContainerSecundario >
   )
 }
 

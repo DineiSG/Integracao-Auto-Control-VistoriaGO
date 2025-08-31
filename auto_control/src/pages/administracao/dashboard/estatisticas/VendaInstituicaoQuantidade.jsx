@@ -7,7 +7,7 @@ import { useGetArray } from "../../../../services/useGetArray"
 import useGroupedChart from "../../../../hooks/useGroupedChart"; // seu hook atual
 import { useFilterPeriodo } from "../../../../hooks/useFilterPeriodo"; // o hook criado acima
 
-const VendaPeriodo = () => {
+const VendaInstituicaoQuantidade = () => {
     // Busca todas as vendas
     const { data: vendas = [] } = useGetArray("/vendas");
 
@@ -26,7 +26,7 @@ const VendaPeriodo = () => {
     const { chartData, chartOptions } = useGroupedChart({
         data: filteredData, // <- somente o período selecionado
         datasetLabel: "Vendas por Periodo",
-        groupByKey: "unidade",
+        groupByKey: "instituicao",
         aggregate: "count",
         chartType: "bar",
         sortBy: "value",
@@ -51,7 +51,7 @@ const VendaPeriodo = () => {
             {/* Cabeçalho */}
             <div className="panel-heading">
                 <i className="ti ti-money" id="ti-black"></i>
-                <p> VENDAS EM UM PERÍODO (Quantidade total por loja) </p>
+                <p> FINANCIAMENTO POR INSTITUIÇÃO FINANCEIRA (Quantidade de financiamentos em um período) </p>
             </div>
 
             {/* Filtros de período */}
@@ -87,4 +87,4 @@ const VendaPeriodo = () => {
     );
 };
 
-export default VendaPeriodo;
+export default VendaInstituicaoQuantidade;
