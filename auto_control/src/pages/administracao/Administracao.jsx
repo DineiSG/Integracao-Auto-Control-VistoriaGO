@@ -38,7 +38,6 @@ const Administracao = () => {
                             <Card classBody={"card_home"} classLink={"/relatorios_movimentacao"} classNameIcon={"ti ti-receipt card-ti"} classFooter={"nome_footer"} text_title={"RELATÓRIOS"}
                                 text_footer={<>Gerar relatórios de liberação e baixa de veículos </>} />
                         </div>
-
                     </div>
                 </div>
                 <div className="container d-flex justify-content-center card-container">
@@ -55,6 +54,15 @@ const Administracao = () => {
                             <Card classBody={"card_home"} classLink={"/dashboard"} classNameIcon={"ti ti-bar-chart card-ti"} classFooter={"nome_footer"} text_title={"DASHBOARD"}
                                 text_footer={<>Estatísticas diversas </>} />
                         </div>
+                    </div>
+                </div>
+                <div className="container d-flex justify-content-center card-container">
+                    <div className="row justify-content-center  w-100">
+                        <div className="card col-md-4" id="bloco"  >
+                            <Card classBody={"card_home"} classLink={"/cadastrar_loja"} classNameIcon={"ti ti-home card-ti"} classFooter={"nome_footer"} text_title={"CADASTRAR LOJA"}
+                                text_footer={<>Cadastrar ou editar dados de uma loja</>} />
+                        </div>
+
                     </div>
                 </div>
             </ContainerSecundario>

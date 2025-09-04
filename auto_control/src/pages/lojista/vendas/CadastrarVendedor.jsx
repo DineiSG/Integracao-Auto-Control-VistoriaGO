@@ -52,26 +52,22 @@ const CadastrarVendedor = () => {
 
         console.log('Dados a serem enviados: ', dados)
         // Padroniza para caixa alta
-        dados = toUpperFields(dados, ['placa', 'marca', 'modelo', 'cor', 'unidade'])
+        dados = toUpperFields(dados, ['unidade', 'nome'])
 
         // Verifica se todos os campos obrigatórios estão preenchidos
-        const confirmar = window.confirm("Confirma o cadastro do veículo?");
+        const confirmar = window.confirm("Confirma o cadastro do vendedor?");
         if (confirmar === true) {
             try {
                 await createData(dados)
                 //console.log('Veiculo cadastrado com sucesso, ', resultado)
-                window.alert('Veiculo cadastrado com sucesso')
+                window.alert('Vendedor cadastrado com sucesso')
                 window.location.reload()
             } catch (err) {
-                console.error('Falha ao registrar o veiculo: ', err)
-                window.alert('Falha ao registrar o veículo. Veja console para detalhes.')
+                console.error('Falha ao cadastrar o vendedor: ', err)
+                window.alert('Falha ao registrar o vendedor.')
             }
         }
     }
-
-    // Função para lidar com a mudança de unidade
-
-
 
     return (
 
@@ -101,9 +97,7 @@ const CadastrarVendedor = () => {
                         <i className='ti ti-user' id="ti-black"></i>
                         <p>CADASTRO DE VENDEDOR <br /> Informe os dados</p>
                     </div>
-
                     <Form onSubmit={handleSubmit}>
-
                         <div className="col-12 col-md-4">
                             <Input label={"Nome:"} type={"text"} style={{ width: '300px' }} nameInput={"placa"}
                                 value={nome} onChange={(e) => setNome(e.target.value)} required />
@@ -120,7 +114,6 @@ const CadastrarVendedor = () => {
                             <Input label={"Telefone:"} type={"text"} style={{ width: '150px' }} nameInput={"marca"}
                                 value={telefone} onChange={(e) => setTelefone(formatTel(e.target.value))} required />
                         </div>
-
                         <div className="d-flex flex-row-reverse">
                             <Button type="submit" variant='primary'>ENVIAR</Button>
                         </div>

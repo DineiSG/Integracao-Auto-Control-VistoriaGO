@@ -33,6 +33,7 @@ import CadastrarVendedor from "../lojista/vendas/CadastrarVendedor";
 import Dashboard from "../administracao/dashboard/Dashboard";
 import HistoricoAcessos from "../administracao/historico/HistoricoAcessos";
 import ModalCam from "../../components/modal/ModalCam";
+import CadastroLoja from "../administracao/lojista/CadastroLoja";
 
 
 
@@ -86,7 +87,6 @@ function Body() {
           <Sidebar id="sidebar"></Sidebar>
         )}
         <ContainerSecundario >
-          
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Home />} />
@@ -96,6 +96,7 @@ function Body() {
               <Route path="/solicitar_liberacao" element={<SolicitarLiberacao />} />
               <Route path="/consultar_venda" element={<ConsultarVenda />} />
               <Route path="/administracao" element={<Administracao />} />
+              <Route path="/cadastrar_loja" element={<CadastroLoja/>}/>
               <Route path="/liberar_veiculo" element={<LiberarVeiculo />} />
               <Route path="/baixar_veiculo" element={<BaixarVeiculo />} />
               <Route path="/relatorios_movimentacao" element={<RelatoriosMovimentacao />} />

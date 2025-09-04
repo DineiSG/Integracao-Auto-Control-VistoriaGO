@@ -21,7 +21,7 @@ const ConsultarVenda = () => {
     /*Alterando a placa para letras maiusculas */
 
     // buscando os dados no bd
-    const { data: veiculo, } = useGetData(buscaPlaca ? `/vendas/placa/${placa}` : null)
+    const { data: veiculo } = useGetData(buscaPlaca ? `/vendas/placa/${placa}` : null)
 
 
     // Ref para manter a referência atualizada da última placa buscada
@@ -147,7 +147,7 @@ const ConsultarVenda = () => {
                             <Input label={"Data de Nascimento:"} style={{ width: '110px' }} value={dadosVeiculo.nascimento} required />
                         </div>
                         <div className="col-6 col-md-3">
-                            <Input label={"CPF:"} type={"text"} style={{ width: '150px' }} maxLength={14} nameInput={"modelo"} value={dadosVeiculo.cpf} required />
+                            <Input label={"CPF:"} type={"text"} style={{ width: '150px' }} maxLength={14} nameInput={"cpf"} value={dadosVeiculo.cpf} required />
                         </div>
                         <div className="col-6 col-md-3">
                             <Input label={"RG:"} type={"text"} style={{ width: '150px' }} maxLength={14} nameInput={"rg"} value={dadosVeiculo.rg} required />
@@ -203,7 +203,6 @@ const ConsultarVenda = () => {
                         <div className="col-12 col-md-6">
                             <Input label={"Observações:"} type={"text"} style={{ width: '300px' }} nameInput={"observacoes"} value={dadosVeiculo.observacoes} required />
                         </div>
-
                     </Form>
                 </Box>
 

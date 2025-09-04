@@ -5,9 +5,11 @@ export function useGetData(endpoint) {
     const [status, setStatus] = useState('idle'); // idle | loading | success | error
     const [error, setError] = useState(null);
 
-    const API_BASE_URL =import.meta.env.VITE_API_BASE_URL;
+    const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
     useEffect(() => {
+        if (!endpoint) return; // evita chamada quando endpoint é null ou vazio
+
         async function fetchData() {
             setStatus('loading');
             setError(null);
