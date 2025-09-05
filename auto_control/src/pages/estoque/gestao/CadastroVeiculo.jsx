@@ -54,16 +54,51 @@ const CadastroVeiculo = () => {
 
         // Verifica se todos os campos obrigatórios estão preenchidos
         const confirmar = window.confirm("Confirma o cadastro do veículo?");
-        if (confirmar === true) {
-            try {
-                await createData(dados)
-                //console.log('Veiculo cadastrado com sucesso, ', resultado)
-                window.alert('Veiculo cadastrado com sucesso')
-                window.location.reload()
-            } catch (err) {
-                console.error('Falha ao registrar o veiculo: ', err)
-                window.alert('Falha ao registrar o veículo. Veja console para detalhes.')
+        if (!confirmar) return;
+
+        try {
+            // Verifica se a placa já existe antes de enviar os dados
+            const existente = await fetch(
+                `${import.meta.env.VITE_API_BASE_URL}/veiculos/placa/${dados.placa}`
+            ).then((res) => res.ok ? res.json() : null);
+
+            if (existente) {
+                window.alert("Já existe um veículo cadastrado com esta placa!");
+                return;
+                // Se a placa não existir, verifica a quantidade de veículos na unidade selecionada
+            } else {
+
+                const responseUnidade = await fetch(`${import.meta.env.VITE_API_BASE_URL}/veiculos/unidade/${toUpperFields.unidade}`);
+                const data = await responseUnidade.json();
+
+                const filteredResults = data.filter((veiculo) => veiculo.placa !== "").length;
+                console.log("Quantidade de veiculos: ", filteredResults);
+                //
+                const responseLoja = await fetch(`${import.meta.env.VITE_API_BASE_URL}/lojas`);
+                const dataLoja = await responseLoja.json();
+
+                const loja = dataLoja.find((loja) => loja.descricao === dados.unidade);
+                const vagasTotais = parseInt(loja.qtdVeiculos, 10);
+                console.log("Quantidade de vagas informadas no cadastro da loja: ", vagasTotais);
+
+                const vagasDisponiveis = vagasTotais - filteredResults;
+                console.log(`Quantidade de vagas disponíveis: ${vagasDisponiveis - 1}`);
+
+                // Só permite o cadastro se houver vagas disponíveis
+                if (vagasDisponiveis > 0) {
+                    const dadosUpper = toUpperFields(dados);
+                    await createData(dadosUpper);
+
+                    window.alert('Veículo cadastrado com sucesso');
+                    window.location.reload();
+                } else {
+                    window.alert('Não há vagas disponíveis para esta loja. Cadastro não realizado.');
+                }
             }
+
+        } catch (err) {
+            console.error('Falha ao registrar o veículo: ', err);
+            window.alert('Erro ao tentar registrar o veículo');
         }
     }
 

@@ -54,8 +54,6 @@ const EditarDado = () => {
 
   };
 
-
-
   // Preencher campos quando os dados solicitados chegarem
   useEffect(() => {
     if (veiculo && !veiculo.erro) {
@@ -79,7 +77,6 @@ const EditarDado = () => {
   // Função para lidar com a seleção de unidade
   const handleUnidadeChange = (e) => {
 
-
     const selectedOption = e.target.selectedOptions?.[0];
     if (!selectedOption || selectedOption.value === "") {
       console.error("Nenhuma loja válida foi selecionada.");
@@ -101,7 +98,6 @@ const EditarDado = () => {
     })
     return copy
   }
-
 
   const handleSubmit = async (e) => {
     e.preventDefault()

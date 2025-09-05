@@ -6,14 +6,18 @@ import Input from '../../../components/input/Input';
 import Form from '../../../components/form/Form';
 import { useState, useEffect, useRef } from "react";
 import { useGetData } from '../../../services/useGetData';
+import { usePutData } from '../../../services/usePutData';
 import { formatDateInfo } from '../../../hooks/formatDate';
+import Button from '../../../components/button/Button';
+import { formatTel, formatCEP, formatCPF, formatDate } from "../../../hooks/useMask"
 
 const ConsultarVenda = () => {
 
     const [placa, setPlaca] = useState('')
     const [buscaPlaca, setBuscaPlaca] = useState("")
+    const [editavel, setEditavel] = useState(false)
     const [dadosVeiculo, setDadosVeiculo] = useState({
-        placa: '', marca: '', modelo: '', cor: '', renavam: '', unidade: '', vendedor: '',
+        marca: '', modelo: '', cor: '', renavan: '', unidade: '', vendedor: '',
         comprador: '', telefone: '', email: '', cep: '', endereco: '', bairro: '', cidade: '', uf: '', nascimento: '', cpf: '', rg: '',
         valorFipe: '', valorVenda: '', valorEntrada: '', valorFinanciamento: '', observacoes: '', tipoVenda: '', instituicao: '', dataRegistro: '', rua: ''
     });
@@ -22,7 +26,8 @@ const ConsultarVenda = () => {
 
     // buscando os dados no bd
     const { data: veiculo } = useGetData(buscaPlaca ? `/vendas/placa/${placa}` : null)
-
+    // Enviando dados editados
+    const { editByPlaca } = usePutData(`/vendas`)
 
     // Ref para manter a referência atualizada da última placa buscada
     const ultimaPlacaBuscada = useRef('');
@@ -39,6 +44,13 @@ const ConsultarVenda = () => {
                 ultimaPlacaBuscada.current = placaM;
                 setBuscaPlaca(placaM);
             }
+            setEditavel(true);
+        } else {
+            setDadosVeiculo({
+                placa: '', marca: '', modelo: '', cor: '', renavan: '', unidade: '', vendedor: '',
+                comprador: '', telefone: '', email: '', cep: '', endereco: '', bairro: '', cidade: '', uf: '', nascimento: '', cpf: '', rg: '',
+                valorFipe: '', valorVenda: '', valorEntrada: '', valorFinanciamento: '', observacoes: '', tipoVenda: '', instituicao: '', rua: ''
+            });
         }
     };
 
@@ -49,10 +61,11 @@ const ConsultarVenda = () => {
             console.log('Dados do veículo recebidos:', veiculo); // Debug
             setDadosVeiculo(prev => ({
                 ...prev,
+                id: veiculo.id || '',
                 marca: veiculo.marca || '',
                 modelo: veiculo.modelo || '',
                 cor: veiculo.cor || '',
-                renavam: veiculo.renavam || '',
+                renavan: veiculo.renavam || '',
                 unidade: veiculo.unidade || '',
                 vendedor: veiculo.vendedor || '',
                 comprador: veiculo.comprador || '',
@@ -82,7 +95,70 @@ const ConsultarVenda = () => {
 
     }, [veiculo]);
 
+    // Função para converter campos em CAIXA ALTA
+    const toUpperFields = (obj, fields = []) => {
+        const copy = { ...obj }
+        fields.forEach((f) => {
+            if (copy[f] !== undefined && copy[f] !== null) {
+                copy[f] = String(copy[f]).toUpperCase()
+            }
+        })
+        return copy
+    }
 
+    const handleDateChange =(e)=>{
+        const formatted = formatDate(e.target.value)
+        setDadosVeiculo(prev=>({...prev, nascimento: formatted}))
+    }
+
+    // formata telefone enquanto digita
+    const handlePhoneChange = (e) => {
+        const formatted = formatTel(e.target.value);
+        setDadosVeiculo(prev => ({ ...prev, telefone: formatted }));
+    };
+    // formata cep enquanto digita
+    const handleCepChange = (e) =>{
+        const formatted = formatCEP(e.target.value)
+        setDadosVeiculo(prev=>({...prev, cep: formatted}))
+    }
+    // formata cpf enquanto digita
+    const handleCpfChange = (e) =>{
+        const formatted = formatCPF(e.target.value)
+        setDadosVeiculo(prev=>({...prev, cpf: formatted}))
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+
+        let dados = {
+            placa, id:dadosVeiculo.id, marca: dadosVeiculo.marca, modelo: dadosVeiculo.modelo, cor: dadosVeiculo.cor, renavam: dadosVeiculo.renavan,
+            unidade: dadosVeiculo.unidade, ano_fabricacao: dadosVeiculo.ano_fabricacao, ano_modelo: dadosVeiculo.ano_modelo, vendedor: dadosVeiculo.vendedor,
+            comprador: dadosVeiculo.comprador, telefone: dadosVeiculo.telefone, email: dadosVeiculo.email, cep: dadosVeiculo.cep,
+            endereco: dadosVeiculo.endereco, bairro: dadosVeiculo.bairro, cidade: dadosVeiculo.cidade, uf: dadosVeiculo.uf, valorVenda: dadosVeiculo.valorVenda,
+            valorFipe: dadosVeiculo.valorFipe, valorEntrada: dadosVeiculo.valorEntrada, valorFinanciamento: dadosVeiculo.valorFinanciamento,
+            observacoes: dadosVeiculo.observacoes, tipoVenda: dadosVeiculo.tipoVenda, instituicao: dadosVeiculo.instituicao,
+            nascimento: dadosVeiculo.nascimento, cpf: dadosVeiculo.cpf, rg: dadosVeiculo.rg, rua: dadosVeiculo.rua 
+        }
+
+        dados = toUpperFields(dados, ['placa', 'marca', 'modelo', 'cor', 'unidade', 'vendedor', 'comprador', 'cidade', 'uf', 'bairro', 'endereco', 'instituicao', 'tipoVenda'])
+        // Padroniza para caixa alta
+        console.log('Dados a serem enviados: ', dados)
+
+        const confirmar = window.confirm("Confirma a edição dos dados do veículo?");
+
+        if (confirmar === true) {
+            try {
+                const resultado = await editByPlaca(dados, placa)
+                console.log('Dados editados com sucesso, ', resultado)
+                window.alert('Dados editados com sucesso')
+                window.location.reload()
+
+
+            } catch (err) {
+                console.error('Falha ao editar os dados: ', err)
+            }
+        }
+    }
 
     return (
         <ContainerSecundario>
@@ -115,7 +191,7 @@ const ConsultarVenda = () => {
                     <div className='panel-heading'>
                         <p>Informe uma placa para buscar os dados da venda de um veículo</p>
                     </div>
-                    <Form >
+                    <Form onSubmit={handleSubmit}>
                         <div className="col-12 col-md-2">
                             <Input label={"Placa:"} type={"text"} maxLength={"7"} style={{ width: '80px' }} nameInput={"placa"} value={placa} onChange={(e) => setPlaca(e.target.value)} onBlur={handleBlur} required />
                         </div>
@@ -129,7 +205,7 @@ const ConsultarVenda = () => {
                             <Input label={"Cor:"} type={"text"} style={{ width: '150px' }} nameInput={"cor"} value={dadosVeiculo.cor} readOnly />
                         </div>
                         <div className="col-12 col-md-3">
-                            <Input label={"Renavam:"} type={"text"} style={{ width: '150px' }} nameInput={"renavam"} value={dadosVeiculo.renavam} readOnly />
+                            <Input label={"Renavam:"} type={"text"} style={{ width: '150px' }} nameInput={"renavam"} value={dadosVeiculo.renavan} readOnly />
                         </div>
                         <div className="col-12 col-md-6">
                             <Input label={"Loja:"} type={"text"} style={{ width: '150px' }} nameInput={"unidade"} value={dadosVeiculo.unidade} readOnly />
@@ -141,40 +217,48 @@ const ConsultarVenda = () => {
                     </div>
                     <Form>
                         <div className="col-6 col-md-5">
-                            <Input label={"Nome Completo:"} type={"text"} style={{ width: '250px' }} nameInput={"comprador"} value={dadosVeiculo.comprador} readOnly />
+                            <Input label={"Nome Completo:"} type={"text"} style={{ width: '250px' }} nameInput={"comprador"} value={dadosVeiculo.comprador} readOnly={!editavel} onChange={(e) =>
+                                setDadosVeiculo(prev => ({ ...prev, comprador: e.target.value }))} />
                         </div>
                         <div className="col-6 col-md-4">
-                            <Input label={"Data de Nascimento:"} style={{ width: '110px' }} value={dadosVeiculo.nascimento} required />
+                            <Input label={"Data de Nascimento:"} style={{ width: '110px' }} value={dadosVeiculo.nascimento} required readOnly={!editavel} onChange={handleDateChange} />
                         </div>
                         <div className="col-6 col-md-3">
-                            <Input label={"CPF:"} type={"text"} style={{ width: '150px' }} maxLength={14} nameInput={"cpf"} value={dadosVeiculo.cpf} required />
+                            <Input label={"CPF:"} type={"text"} style={{ width: '150px' }} maxLength={14} nameInput={"cpf"} value={dadosVeiculo.cpf} required onChange={handleCpfChange} />
                         </div>
                         <div className="col-6 col-md-3">
-                            <Input label={"RG:"} type={"text"} style={{ width: '150px' }} maxLength={14} nameInput={"rg"} value={dadosVeiculo.rg} required />
+                            <Input label={"RG:"} type={"text"} style={{ width: '150px' }} maxLength={14} nameInput={"rg"} value={dadosVeiculo.rg} required readOnly={!editavel} onChange={(e) =>
+                                setDadosVeiculo(prev => ({ ...prev, rg: e.target.value }))} />
                         </div>
                         <div className="col-6 col-md-3">
-                            <Input label={"Telefone:"} type={"text"} style={{ width: '150px' }} maxLength={14} nameInput={"telefone"} value={dadosVeiculo.telefone} required />
+                            <Input label={"Telefone:"} type={"text"} style={{ width: '150px' }} maxLength={14} nameInput={"telefone"} value={dadosVeiculo.telefone} readOnly={!editavel} onChange={handlePhoneChange} />
                         </div>
                         <div className="col-6 col-md-3">
-                            <Input label={"Email:"} type={"text"} style={{ width: '200px' }} nameInput={"email"} value={dadosVeiculo.email} required />
+                            <Input label={"Email:"} type={"text"} style={{ width: '200px' }} nameInput={"email"} value={dadosVeiculo.email} required readOnly={!editavel} onChange={(e) =>
+                                setDadosVeiculo(prev => ({ ...prev, email: e.target.value }))} />
                         </div>
                         <div className="col-6 col-md-4">
-                            <Input label={"CEP:"} type={"text"} style={{ width: '100px' }} maxLength={9} nameInput={"cep"} value={dadosVeiculo.cep} required />
+                            <Input label={"CEP:"} type={"text"} style={{ width: '100px' }} maxLength={9} nameInput={"cep"} value={dadosVeiculo.cep} required readOnly={!editavel} onChange={handleCepChange} />
                         </div>
                         <div className="col-6 col-md-4">
-                            <Input label={"Logradouro:"} type={"text"} style={{ width: '250px' }} nameInput={"logradouro"} value={dadosVeiculo.rua} readOnly />
+                            <Input label={"Logradouro:"} type={"text"} style={{ width: '250px' }} nameInput={"logradouro"} value={dadosVeiculo.rua} readOnly={!editavel} onChange={(e) =>
+                                setDadosVeiculo(prev => ({ ...prev, rua: e.target.value }))} />
                         </div>
                         <div className="col-6 col-md-4">
-                            <Input label={"Complemento:"} type={"text"} style={{ width: '200px' }} nameInput={"complemento"} value={dadosVeiculo.endereco} required />
+                            <Input label={"Complemento:"} type={"text"} style={{ width: '200px' }} nameInput={"complemento"} value={dadosVeiculo.endereco} required readOnly={!editavel} onChange={(e) =>
+                                setDadosVeiculo(prev => ({ ...prev, endereco: e.target.value }))} />
                         </div>
                         <div className="col-6 col-md-4">
-                            <Input label={"Bairro:"} type={"text"} style={{ width: '200px' }} nameInput={"bairro"} value={dadosVeiculo.bairro} readOnly />
+                            <Input label={"Bairro:"} type={"text"} style={{ width: '200px' }} nameInput={"bairro"} value={dadosVeiculo.bairro} readOnly={!editavel} onChange={(e) =>
+                                setDadosVeiculo(prev => ({ ...prev, bairro: e.target.value }))} />
                         </div>
                         <div className="col-12 col-md-4">
-                            <Input label={"Cidade:"} type={"text"} style={{ width: '200px' }} nameInput={"cidade"} value={dadosVeiculo.cidade} readOnly />
+                            <Input label={"Cidade:"} type={"text"} style={{ width: '200px' }} nameInput={"cidade"} value={dadosVeiculo.cidade} readOnly={!editavel} onChange={(e) =>
+                                setDadosVeiculo(prev => ({ ...prev, cidade: e.target.value }))}/>
                         </div>
                         <div className="col-12 col-md-3">
-                            <Input label={"UF:"} type={"text"} style={{ width: '70px' }} nameInput={"uf"} value={dadosVeiculo.uf} readOnly />
+                            <Input label={"UF:"} type={"text"} style={{ width: '70px' }} nameInput={"uf"} value={dadosVeiculo.uf} readOnly={!editavel} onChange={(e) =>
+                                setDadosVeiculo(prev => ({ ...prev, uf: e.target.value }))} />
                         </div>
                     </Form>
                     <div className='sub-panel-heading'>
@@ -186,22 +270,26 @@ const ConsultarVenda = () => {
                             <Input label={"Vendendor:"} type={"text"} style={{ width: '200px' }} nameInput={"vendedor"} value={dadosVeiculo.vendedor} readOnly />
                         </div>
                         <div className="col-12 col-md-3">
-                            <Input label={"Valor Fipe R$:"} type={"text"} style={{ width: '150px' }} nameInput={"valor_fipe"} value={dadosVeiculo.valorFipe} />
+                            <Input label={"Valor Fipe R$:"} type={"text"} style={{ width: '150px' }} nameInput={"valor_fipe"} value={dadosVeiculo.valorFipe} readOnly />
                         </div>
                         <div className="col-12 col-md-4">
-                            <Input label={"Valor Venda R$:"} type={"text"} style={{ width: '150px' }} nameInput={"valor_venda"} value={dadosVeiculo.valorVenda} />
+                            <Input label={"Valor Venda R$:"} type={"text"} style={{ width: '150px' }} nameInput={"valor_venda"} value={dadosVeiculo.valorVenda} readOnly/>
                         </div>
                         <div className="col-12 col-md-4">
-                            <Input label={"Valor Entrada R$:"} type={"text"} style={{ width: '150px' }} name={"valor_entrada"} value={dadosVeiculo.valorEntrada} />
+                            <Input label={"Valor Entrada R$:"} type={"text"} style={{ width: '150px' }} nameInput={"valor_entrada"} value={dadosVeiculo.valorEntrada} readOnly/>
                         </div>
                         <div className="col-12 col-md-4">
-                            <Input label={"Valor Financiado R$:"} type={"text"} style={{ width: '150px' }} nameInput={"valor_financiado"} value={dadosVeiculo.valorFinanciamento} />
+                            <Input label={"Valor Financiado R$:"} type={"text"} style={{ width: '150px' }} nameInput={"valor_financiado"} value={dadosVeiculo.valorFinanciamento} readOnly/>
                         </div>
                         <div className="col-12 col-md-6">
-                            <Input label={"Data transação:"} type={"text"} style={{ width: '200px' }} nameInput={"dataTransação"} value={dadosVeiculo.dataRegistro} required />
+                            <Input label={"Data transação:"} type={"text"} style={{ width: '200px' }} nameInput={"dataTransação"} value={dadosVeiculo.dataRegistro} required readOnly/>
                         </div>
                         <div className="col-12 col-md-6">
-                            <Input label={"Observações:"} type={"text"} style={{ width: '300px' }} nameInput={"observacoes"} value={dadosVeiculo.observacoes} required />
+                            <Input label={"Observações:"} type={"text"} style={{ width: '300px' }} nameInput={"observacoes"} value={dadosVeiculo.observacoes} required readOnly={!editavel} onChange={(e) =>
+                                setDadosVeiculo(prev => ({ ...prev, observacoes: e.target.value }))}/>
+                        </div>
+                        <div className="d-flex flex-row-reverse">
+                            <Button onClick={handleSubmit} variant='primary' >SALVAR</Button>
                         </div>
                     </Form>
                 </Box>

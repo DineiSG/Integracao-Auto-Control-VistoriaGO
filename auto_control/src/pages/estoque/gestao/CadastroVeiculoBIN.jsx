@@ -89,29 +89,72 @@ const CadastroVeiculoBIN = () => {
     // Funçao que eunvia os dados do veículo para o backend
     // Ela formata a data de registro e envia os dados para o backend
     const handleSubmit = async (e) => {
-        e.preventDefault()
+        e.preventDefault();
 
+        const data_registro = formatTimestamp(new Date());
+        let dados = {
+            placa,
+            data_registro,
+            unidade,
+            marca: veiculo.Fabricante,
+            modelo: veiculo.MarcaModelo,
+            cor: veiculo.CorVeiculo,
+            ano_fabricacao: veiculo.AnoFabricacao,
+            ano_modelo: veiculo.AnoModelo,
+            renavan: veiculo.renavam,
+        };
 
-        const data_registro = formatTimestamp(new Date())
-        let dados = { placa, data_registro, unidade, marca: veiculo.Fabricante, modelo: veiculo.MarcaModelo, cor: veiculo.CorVeiculo, ano_fabricacao: veiculo.AnoFabricacao, ano_modelo: veiculo.AnoModelo, renavan: veiculo.renavam, }
-        dados = toUpperFields(dados, ['placa', 'marca', 'modelo', 'cor', 'unidade'])
+        // normaliza os campos para maiúsculo
+        dados = toUpperFields(dados, ['placa', 'marca', 'modelo', 'cor', 'unidade']);
 
         const confirmar = window.confirm("Confirma o cadastro do veículo?");
-        if (confirmar === true) {
-            try {
-                const dadosUpper = toUpperCaseData(dados)
+        if (!confirmar) return;
 
-                await createData(dadosUpper)
-                //console.log('Veiculo cadastrado com sucesso, ', resultado)
-                window.alert('Veiculo cadastrado com sucesso')
-                window.location.reload()
+        try {
+            // Verifica se a placa já existe antes de enviar os dados
+            const existente = await fetch(
+                `${import.meta.env.VITE_API_BASE_URL}/veiculos/placa/${dados.placa}`
+            ).then((res) => res.ok ? res.json() : null);
 
+            if (existente) {
+                window.alert("Já existe um veículo cadastrado com esta placa!");
+                return;
+                // Se a placa não existir, verifica a quantidade de veículos na unidade selecionada
+            } else {
+              
+                const responseUnidade = await fetch(`${import.meta.env.VITE_API_BASE_URL}/veiculos/unidade/${toUpperFields.unidade}`);
+                const data = await responseUnidade.json();
 
-            } catch (err) {
-                console.error('Falha ao registrar o veiculo: ', err)
+                const filteredResults = data.filter((veiculo) => veiculo.placa !== "").length;
+                console.log("Quantidade de veiculos: ", filteredResults);
+                //
+                const responseLoja = await fetch(`${import.meta.env.VITE_API_BASE_URL}/lojas`);
+                const dataLoja = await responseLoja.json();
+
+                const loja = dataLoja.find((loja) => loja.descricao === dados.unidade);
+                const vagasTotais = parseInt(loja.qtdVeiculos, 10);
+                console.log("Quantidade de vagas informadas no cadastro da loja: ", vagasTotais);
+
+                const vagasDisponiveis = vagasTotais - filteredResults;
+                console.log(`Quantidade de vagas disponíveis: ${vagasDisponiveis - 1}`);
+                
+                // Só permite o cadastro se houver vagas disponíveis
+                if (vagasDisponiveis > 0) {
+                    const dadosUpper = toUpperCaseData(dados);
+                    await createData(dadosUpper);
+
+                    window.alert('Veículo cadastrado com sucesso');
+                    window.location.reload();
+                }else{
+                    window.alert('Não há vagas disponíveis para esta loja. Cadastro não realizado.');
+                }
             }
+
+        } catch (err) {
+            console.error('Falha ao registrar o veículo: ', err);
+            window.alert('Erro ao tentar registrar o veículo');
         }
-    }
+    };
 
 
 
